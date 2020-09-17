@@ -13,7 +13,7 @@ public class counting_sort {
         {  
             count[array[j]]++;
         }
-        for (int i=0; i < num_max ;i++ )//fijar el rango 
+        for (int i=0; i < num_max ;i++ ) 
         {  
             count[i+1] = count[i] + count[i+1];
         }

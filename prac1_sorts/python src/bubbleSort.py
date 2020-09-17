@@ -20,4 +20,3 @@ for i in range(n):
 bubble_sort(arr,n)
 
 printArray(arr,n)
-a = 2

@@ -16,9 +16,8 @@ n = int(input())
 for i in range(n):
     arr.append(int(input()))
 
-print("mmm")
 
 bubble_sort(arr,n)
 
 printArray(arr,n)
-print("hello world")
+print("hola")

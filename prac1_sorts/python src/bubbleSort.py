@@ -16,7 +16,6 @@ n = int(input())
 for i in range(n):
     arr.append(int(input()))
 
-
 bubble_sort(arr,n)
 
 printArray(arr,n)

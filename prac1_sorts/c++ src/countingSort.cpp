@@ -9,8 +9,6 @@ int* counting_sort(int* array,int* new_array){
     {
         if(array[i] > num_max)
             num_max = array[i];
-        if(array[i] < num_min)
-            num_min = array[i];
     }
     
     int *count = new int [num_max+1];

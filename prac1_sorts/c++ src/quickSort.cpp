@@ -41,23 +41,24 @@ void quick_sort(int arr[], int low, int high)
 
 int main()
 {
-    int n;
-    cin>>n;
-    int* arr = new int [n];
+    int numArrays;
+    cin>>numArrays;
 
-    for(int i = 0; i < n; ++i)
-        cin>>arr[i];
-    Timer timer;
-    timer.start();
-    quick_sort(arr, 0, n-1);
-    timer.stop();
+    for (int i = 0; i < numArrays; ++i)
+    {
+        int n;
+        cin>>n;
+        int* arr = new int [n];
+        for (int i = 0; i < n; ++i)
+            cin>>arr[i];
+        Timer timer;
+        timer.start();
+        quick_sort(arr, 0, n-1);
+        timer.stop();
+        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
+        
+    }
     
-    cout<<"Tiempo en milisegundos: "<<timer.elapsedMilliseconds()<<endl;
 
-    for(int i = 0; i < n; ++i)
-        cout<<arr[i]<<' ';
-    cout<<endl;
-    delete [] arr;
-    return 0;
     return 0;
 }

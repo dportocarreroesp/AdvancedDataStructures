@@ -21,19 +21,24 @@ void bubble_sort(int arr[], int n)
 
 int main()
 {
-    int n;
-    cin>>n;
-    int* arr = new int [n];
+    int numArrays;
+    cin>>numArrays;
 
-    for(int i = 0; i < n; ++i)
-        cin>>arr[i];
-    Timer timer;
-    timer.start();
-    bubble_sort(arr, n);
-    timer.stop();
+    for (int i = 0; i < numArrays; ++i)
+    {
+        int n;
+        cin>>n;
+        int* arr = new int [n];
+        for (int i = 0; i < n; ++i)
+            cin>>arr[i];
+        Timer timer;
+        timer.start();
+        bubble_sort(arr,n);
+        timer.stop();
+        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
+        
+    }
     
-    cout<<"Tiempo en milisegundos: "<<timer.elapsedMilliseconds()<<endl;
 
-    delete [] arr;
     return 0;
 }

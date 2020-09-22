@@ -36,9 +36,8 @@ int main()
         bubble_sort(arr,n);
         timer.stop();
         cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
-        
+        delete [] arr;
     }
     
-
     return 0;
 }

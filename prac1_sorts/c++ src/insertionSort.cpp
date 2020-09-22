@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "Timer.hpp"
 
 using namespace std;
 
@@ -25,30 +26,27 @@ void inSort(int arr[], int n)
 		}
 		arr[j +1] = key;
 	}
-	show(arr,n);
 }
-
-
 
 int main()
 {
-	int arr[]={12,11,13,5,6};
-	int n = sizeof(arr)/sizeof(arr[0]);
+    int numArrays;
+    cin>>numArrays;
 
-	inSort(arr,n);
-	show(arr,n);
-
-	return 0;
+    for (int i = 0; i < numArrays; ++i)
+    {
+        int n;
+        cin>>n;
+        int* arr = new int [n];
+        for (int i = 0; i < n; ++i)
+            cin>>arr[i];
+        Timer timer;
+        timer.start();
+        inSort(arr,n);
+        timer.stop();
+        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
+        delete [] arr;
+    }
+    
+    return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-

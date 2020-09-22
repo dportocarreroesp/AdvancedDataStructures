@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Timer.hpp"
 
 using namespace std;
 void swap(int *arr,int a,int b){
@@ -36,10 +37,26 @@ void print(int *arr,int n){
     }
     cout<<endl;
 }
-int main() {
-    int miarr[]={5,8,2,6,7,4,9,23,54,12};
-    int n=10;
-    heapSort(miarr,n);
-    print(miarr,n);
+
+int main()
+{
+    int numArrays;
+    cin>>numArrays;
+
+    for (int i = 0; i < numArrays; ++i)
+    {
+        int n;
+        cin>>n;
+        int* arr = new int [n];
+        for (int i = 0; i < n; ++i)
+            cin>>arr[i];
+        Timer timer;
+        timer.start();
+        heapSort(arr,n);
+        timer.stop();
+        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
+        delete [] arr;
+    }
+    
     return 0;
 }

@@ -56,7 +56,7 @@ int main()
         quick_sort(arr, 0, n-1);
         timer.stop();
         cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
-        
+        delete [] arr;
     }
     
 

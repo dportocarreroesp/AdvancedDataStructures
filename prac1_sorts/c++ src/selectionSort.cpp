@@ -5,17 +5,13 @@
 
 using namespace std;
 
-
-#define max 1000000
-
-
-void selection_sort(int* array){
+void selection_sort(int* array, int n){
     int primer;
     int temp;
-    for(int i = 0; i < max-1; i++)
+    for(int i = 0; i < n-1; i++)
     {
         primer = i;
-        for (int j = i+1; j < max; j++)
+        for (int j = i+1; j < n; j++)
         {
             if(array[primer] > array[j])
                 primer = j;
@@ -26,36 +22,31 @@ void selection_sort(int* array){
     }
 }
 
-void print(int* array){
-    for(int i=0;i<max;i++){
+void print(int* array, int n){
+    for(int i=0;i<n;i++){
         cout<<array[i]<<" ";
     }
 }
 
-int main(){
+int main()
+{
+    int numArrays;
+    cin>>numArrays;
 
-    int num;
-    int array[max];
-    Timer timer;
-    for (int i = 0; i < max; i++)
+    for (int i = 0; i < numArrays; ++i)
     {
-        cin>>num;
-        array[i] = num;
-        cout<<array[i] <<" ";
+        int n;
+        cin>>n;
+        int* arr = new int [n];
+        for (int i = 0; i < n; ++i)
+            cin>>arr[i];
+        Timer timer;
+        timer.start();
+        selection_sort(arr,n);
+        timer.stop();
+        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
+        delete [] arr;
     }
-    cout<<endl;
-
-    //Selection Sort
-    timer.start();
-    selection_sort(array);
-    timer.stop();
-    print(array);
     
-    cout<<endl;
-    
-    cout << "Milisegundos: " << timer.elapsedMilliseconds() <<endl;
-    
-    cout<<endl;
     return 0;
-
 }

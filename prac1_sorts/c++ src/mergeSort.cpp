@@ -1,6 +1,9 @@
 #include <stdio.h> 
 #include <stdlib.h> 
-  
+#include "Timer.hpp"
+#include <iostream>
+
+using namespace std;
  
 void merge(int arr[], int l, int m, int r) 
 { 
@@ -68,17 +71,26 @@ void printArray(int A[], int size)
 } 
   
 
-int main() 
-{ 
-    int arr[] = { 12, 11, 13, 5, 6, 7 }; 
-    int arr_size = sizeof(arr) / sizeof(arr[0]); 
-  
-    printf("ARRAY INCIAL \n"); 
-    printArray(arr, arr_size); 
-  
-    mergeSort(arr, 0, arr_size - 1); 
-  
-    printf("\nARRAY FINAL \n"); 
-    printArray(arr, arr_size); 
-    return 0; 
-} 
+
+int main()
+{
+    int numArrays;
+    cin>>numArrays;
+
+    for (int i = 0; i < numArrays; ++i)
+    {
+        int n;
+        cin>>n;
+        int* arr = new int [n];
+        for (int i = 0; i < n; ++i)
+            cin>>arr[i];
+        Timer timer;
+        timer.start();
+        mergeSort(arr,0,n-1);
+        timer.stop();
+        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
+        delete [] arr;
+    }
+    
+    return 0;
+}

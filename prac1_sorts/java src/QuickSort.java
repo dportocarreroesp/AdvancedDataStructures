@@ -1,6 +1,6 @@
 import java.util.*;
 
-class quickSort {
+class QuickSort {
     public static void main(String[] args) {
         int n;
         Scanner input = new Scanner(System.in);

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Timer.hpp"
 using namespace std;
 #define max 10
 
@@ -11,7 +12,8 @@ int* counting_sort(int* array,int* new_array){
         if(array[i] < num_min)
             num_min = array[i];
     }
-    int count[num_max+1]={0};
+    
+    int *count = new int [num_max+1];
     for (int j=0; j < max ;j++ )
     {  
         count[array[j]]++;

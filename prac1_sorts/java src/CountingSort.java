@@ -1,4 +1,4 @@
-public class counting_sort {
+public class CountingSort {
     int[] count_sort(int array[],int new_array[]){
         
         int num_max = array[0];
@@ -33,7 +33,7 @@ public class counting_sort {
     }
 
     public static void main(String[] args) {
-        counting_sort sort = new counting_sort(); 
+        CountingSort sort = new CountingSort(); 
         int array[] = {5435,8606,9263,5398,3231,6944,3186,1333,1626,245}; 
         int aux[] = new int[array.length];
         

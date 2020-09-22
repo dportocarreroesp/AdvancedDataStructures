@@ -1,6 +1,4 @@
-package com.company;
-
-public class Heapsort {
+public class HeapSort {
     void swap(int arr[], int a, int b){
         int tmp = arr[a];
         arr[a]=arr[b];
@@ -36,7 +34,7 @@ public class Heapsort {
     public static void main(String[] args) {
         int arr[]={23,45,7,3,56,98,56,7};
         int n=arr.length;
-        Heapsort heap = new Heapsort();
+        HeapSort heap = new HeapSort();
         heap.heapsort(arr,n);
         for(int i=0;i<n;i++){
             System.out.print(arr[i]+" ");

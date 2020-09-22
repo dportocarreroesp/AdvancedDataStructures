@@ -1,4 +1,4 @@
-public class selection_sort {
+public class SelectionSort {
 
     void select_sort(int array[]){
         int primer;
@@ -25,7 +25,7 @@ public class selection_sort {
         System.out.println(); 
     } 
     public static void main(String[] args) {
-        selection_sort sort = new selection_sort(); 
+        SelectionSort sort = new SelectionSort(); 
         int array[] = {5435,8606,9263,5398,3231,6944,3186,1333,1626,245}; 
         sort.select_sort(array);  
         sort.print(array);  

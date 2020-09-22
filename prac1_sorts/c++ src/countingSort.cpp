@@ -4,7 +4,7 @@ using namespace std;
 #define max 10
 
 int* counting_sort(int* array,int* new_array){
-    int num_max = array[0], num_min = array[0];
+    int num_max = array[0];
     for (int i = 1; i < max; i++)
     {
         if(array[i] > num_max)

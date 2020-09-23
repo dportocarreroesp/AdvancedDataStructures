@@ -1,26 +1,52 @@
-array = [5435,8606,9263 ,5398, 3231 ,6944, 3186, 1333 ,1626 ,245]
-new_array = [0 for i in range(len(array))]
+from timer import Timer
 
-def counting_sort(array):
-    num_max = array[0]
-    for i in range(len(array)):
-        if array[i] > num_max :
-            num_max = array[i]
+filer = open('arrays.txt', "r")
+filew = open("countingSortTime.txt","w")
+#lectura de lineas
+lines = []
+for line in filer:
+    lines.append(line)
+filer.close()
+#arreglo ordenado
+array = []
+max = 1000
 
-    print(array)
+def counting_sort(arr,n):
+    count = [0 for i in range(max+1)]
 
-    counts = [0 for i in range(num_max+1)]
+    for i in range(n):
+        count[arr[i]] += 1
+ 
+    for i in range(max):
+        count[i+1] = count[i] + count[i+1]
 
-    for i in range(len(array)):
-        counts[array[i]] = counts[array[i]]+1
+    for i in range(max,0,-1):
+        count[i] = count[i-1]
+    count[0] = 0
+    
+    newA = [0 for i in range(n)]
 
-    for i in range(num_max):
-        counts[i+1] = counts[i] + counts[i+1]
+    for i in range(n):
+        newA[count[arr[i]]] = arr[i]
+        count[arr[i]] += 1
+    array = newA
 
 
-    for i in range(len(array)):
-        new_array[counts[array[i]]-1] = array[i];
-        counts[array[i]] = counts[array[i]]-1
-
-counting_sort(array)
-print(new_array)
+if __name__ == "__main__":
+    t=Timer()
+    index = 0
+    numArrays = int(lines[index])
+    for i in range(numArrays):
+        arr = []
+        index +=1
+        n = int(lines[index])
+        index +=1
+        aux = lines[index].split(" ")
+        for j in range(n):
+            arr.append(int(aux[j]))
+            
+        t.start()
+        counting_sort(arr,n)
+        addtimer = t.stop()
+        filew.writelines([str(n)," ",str(round(addtimer,5)),"\n"])  
+    filew.close()

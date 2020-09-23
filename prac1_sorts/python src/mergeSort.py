@@ -1,3 +1,14 @@
+from timeit import default_timer
+
+filer = open('arrays.txt', "r")
+filew = open("mergeSortTime.txt","w")
+#lectura de lineas
+lines = []
+for line in filer:
+    lines.append(line)
+filer.close()
+
+
 def merge_sort(values): 
   
     if len(values)>1: 
@@ -25,13 +36,23 @@ def merge_sort(values):
     return values 
   
  
-a = [12, 11, 13, 5, 6, 7] 
-print("ARRAY INICIAL") 
-print(*a) 
-  
-a = merge_sort(a) 
-  
- 
-print("ARRAY FINAL") 
-print(*a) 
-  
+if __name__ == "__main__":
+    index = 0
+    numArrays = int(lines[index])
+    for i in range(numArrays):
+        arr = []
+        index +=1
+        n = int(lines[index])
+        index +=1
+        aux = lines[index].split(" ")
+        for j in range(n):
+            arr.append(int(aux[j]))
+            
+        inicio = default_timer()
+        array = merge_sort(arr)
+        fin = default_timer()
+        ''' for i in range(n):
+            print(array[i], end=" ")
+        print() '''
+        filew.writelines([str(n)," ",str(round(((fin-inicio)*1000),3)),"\n"])    
+    filew.close()

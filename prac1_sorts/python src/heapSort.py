@@ -1,3 +1,12 @@
+from timeit import default_timer
+
+filer = open('arrays.txt', "r")
+filew = open("heapSortTime.txt","w")
+#lectura de lineas
+lines = []
+for line in filer:
+    lines.append(line)
+filer.close()
 
 def heapify(arr, n, i):
     largo = i
@@ -20,10 +29,27 @@ def heapsort(arr, n):
         heapify(arr, j, 0)
 
 
-array = [64, 34, 25, 12, 22, 11, 90, 23]
-na = len(array)
-heapsort(array, na)
-for i in range(na):
-    print("%d" % array[i]),
+if __name__ == "__main__":
+    index = 0
+    numArrays = int(lines[index])
+    for i in range(numArrays):
+        arr = []
+        index +=1
+        n = int(lines[index])
+        index +=1
+        aux = lines[index].split(" ")
+        for j in range(n):
+            arr.append(int(aux[j]))
+            
+        inicio = default_timer()
+        heapsort(arr, n)
+        fin = default_timer()
+        ''' for i in range(n):
+            print(arr[i], end=" ")
+        print() '''
+        filew.writelines([str(n)," ",str(round(((fin-inicio)*1000),3)),"\n"])    
+    filew.close()
+
+
 
 

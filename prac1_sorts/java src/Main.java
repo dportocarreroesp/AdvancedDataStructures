@@ -210,8 +210,8 @@ public class Main {
 
     public static void main(String[] args) {
         //Colocar ruta del archivo txt
-        /* File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays.txt"); */
-        File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays2.txt");
+        File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays.txt");
+        /* File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays2.txt"); */
         Main sort = new Main();
         try  (Scanner entrada = new Scanner(f)) {
             int pruebas = entrada.nextInt();
@@ -219,7 +219,7 @@ public class Main {
                 int tamano = entrada.nextInt();
                 System.out.print(tamano + " ");
                 double result = 0;
-                for(int z=0;z<5;z++){
+                for(int z=0;z<10;z++){
                     int[] array = new int[tamano];
                     for(int j=0;j<tamano;j++){
                         array[j] = entrada.nextInt();

@@ -23,7 +23,7 @@ int main() {
     cout<<15<<endl;
     for(int i=10000; i<=150000; i+=10000) {
         cout<<i<<endl;
-        for (int k = 0; k < 10; ++k)
+        for (int k = 0; k < 5; ++k)
         {
             for( int j=0; j<i; j++) {
                 cout << rand()%MX << ' ';

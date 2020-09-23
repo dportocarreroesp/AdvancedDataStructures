@@ -1,4 +1,7 @@
 package com.company;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Main {
     // Bubble Sort
@@ -210,21 +213,43 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int[] array = new int[100];
-        int n=array.length;
+        //Colocar ruta del archivo txt
+        File f = new File("C:/Users/gcoay/Desktop/2020-B/EDA/Repo/EDA-Grupo/prac1_sorts/arrays.txt");
         Main sort = new Main();
-        sort.generar(array);
-        sort.print(array);
-        long startTime = System.nanoTime();
-        //sort.quick_sort(array,0,n-1);
-        //sort.select_sort(array);
-        //sort.bubble_sort(array,n);
-        //sort.mergesort(array,0,n-1);
-        //sort.heapsort(array,n);
-        //sort.insertionsort(array);
-        long endTime = System.nanoTime();
-        double tiempo = (endTime-startTime)/1e6;
-        sort.print(array);
-        System.out.println(tiempo +" milisegundos");
+        try  (Scanner entrada = new Scanner(f)) {
+            int pruebas = entrada.nextInt();
+            System.out.println("Total de casos " + pruebas);
+            for(int i=0;i<pruebas;i++){
+                System.out.println("Caso " + i);
+                int tamano = entrada.nextInt();
+                double[] result = new double[10];
+                for(int z=0;z<10;z++){
+                    int[] array = new int[tamano];
+                    for(int j=0;j<tamano;j++){
+                        array[j] = entrada.nextInt();
+                    }
+                    long startTime = System.nanoTime();
+                    sort.quick_sort(array,0,tamano-1);
+                    //sort.select_sort(array);
+                    //sort.bubble_sort(array,n);
+                    //sort.mergesort(array,0,n-1);
+                    //sort.heapsort(array,n);
+                    //sort.insertionsort(array);
+                    long endTime = System.nanoTime();
+                    double tiempo = (endTime-startTime)/1e6;
+                    result[z] = tiempo;
+                }
+                double resultado=0;
+                for(int a=0;a<10;a++){
+                    resultado = resultado + result[a];
+                }
+                resultado=resultado/10;
+                System.out.println(resultado);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 }

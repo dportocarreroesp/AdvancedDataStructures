@@ -1,4 +1,6 @@
 from timer import Timer
+import sys
+sys.setrecursionlimit(100000)
 
 def partition(arr, low, high):
     pivot = arr[high]

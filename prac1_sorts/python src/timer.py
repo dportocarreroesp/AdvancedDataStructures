@@ -40,7 +40,7 @@ class Timer:
             raise TimerError(f"Timer is not running. Use .start() to start it")
 
 
-        elapsed_time = (time.perf_counter() - self._start_time)*100
+        elapsed_time = (time.perf_counter() - self._start_time)*1000
         
         self.tiempo = elapsed_time
 

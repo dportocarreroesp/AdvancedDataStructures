@@ -5,33 +5,20 @@ using namespace std;
 
 void counting_sort(int* &array, int n)
 {
-    /* int num_max = array[0];
-    for (int i = 1; i < max; i++)
-        if (array[i] > num_max)
-            num_max = array[i]; */
 
-    int *count = new int[max + 1];
+    int *count = new int[max]{0};
     for (int i = 0; i < n; i++)
         count[array[i]]++;
 
-    /* for (int i = 0; i < num_max + 1; i++)
-        count[i + 1] = count[i] + count[i + 1]; */
-
-    for (int i = 0; i < max ; i++)
+    for (int i = 0; i < max-1 ; i++)
         count[i + 1] = count[i] + count[i + 1];
 
-    for (int i = max; i > 0; i--)
+    for (int i = max-1; i > 0; i--)
         count[i] = count[i-1];
     count[0] = 0;
 
-    /* for (int i = 0; i < max; i++)
-    {
-        new_array[count[array[i]] - 1] = array[i];
-        count[array[i]]--;
-    } */
-
     int *newA = new int[n]{0};
-
+    
     for (int i = 0; i < n; i++)
     {
         newA[count[array[i]]] = array[i];
@@ -39,35 +26,37 @@ void counting_sort(int* &array, int n)
     }
     
     delete [] array;
+    delete [] count;
     array = newA;
 }
 
-void print(int *new_array)
-{
-    for (int i = 0; i < max; i++)
-    {
-        cout << new_array[i] << " ";
-    }
-}
 int main()
 {
-    int numArrays;
-    cin >> numArrays;
+    int numLengths;
+    cin>>numLengths;
 
-    for (int i = 0; i < numArrays; ++i)
+    for (int i = 0; i < numLengths; ++i)
     {
+        float avg = 0;
+        int numArrays = 10;
         int n;
-        cin >> n;
-        int *arr = new int[n];
-        for (int i = 0; i < n; ++i)
-            cin >> arr[i];
-        Timer timer;
-        timer.start();
-        counting_sort(arr, n);
-        timer.stop();
-        cout << n << ' ' << timer.elapsedMilliseconds() << endl;
-
-        delete [] arr;
+        cin>>n;
+        for(int j = 0; j < numArrays; ++j)
+        {
+            int* arr = new int [n]{0};
+            for (int k = 0; k < n; ++k)
+                cin>>arr[k];
+            Timer timer;
+            timer.start();
+            counting_sort(arr,n);
+            timer.stop();
+            avg += timer.elapsedMilliseconds();
+            delete [] arr;
+        }
+        avg /= numArrays;
+        cout << n << " " << avg << endl;
     }
+    
+
     return 0;
 }

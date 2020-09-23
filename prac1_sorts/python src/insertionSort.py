@@ -1,6 +1,7 @@
+from timer import Timer
+
 def insertionSort(arr): 
-  
- 
+
     for i in range(1, len(arr)): 
   
         key = arr[i] 
@@ -10,9 +11,23 @@ def insertionSort(arr):
                 arr[j + 1] = arr[j] 
                 j -= 1
         arr[j + 1] = key 
-  
-  
-arr = [12, 11, 13, 5, 6] 
-insertionSort(arr) 
-for i in range(len(arr)): 
-    print ("% d" % arr[i]) 
+
+if __name__ == "__main__":
+       
+    index = 0
+    numArrays = int(input())
+    for i in range(numArrays):
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(2):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
+
+            t=Timer(n)   
+            t.start()
+            insertionSort(arr)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))

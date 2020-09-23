@@ -1,29 +1,28 @@
-public class CountingSort {
-    int[] count_sort(int array[],int new_array[]){
-        
-        int num_max = array[0];
-        for (int i = 1; i < array.length; i++)
-        {
-            if(array[i] > num_max)
-                num_max = array[i];
-        }
-        int count[]=new int[10000+1];
+import java.util.Arrays;
 
-        for (int j=0; j < array.length ;j++ )
-        {  
-            count[array[j]]++;
-        }
-        for (int i=0; i < num_max ;i++ ) 
-        {  
-            count[i+1] = count[i] + count[i+1];
+public class CountingSort {
+    void count_sort(int array[],int n){
+        int[] count = new int[1000];
+        for (int i = 0; i < n; i++)
+            count[array[i]]++;
+
+        for (int i = 0; i < 999 ; i++)
+            count[i + 1] = count[i] + count[i + 1];
+
+        for (int i = 999; i > 0; i--)
+            count[i] = count[i-1];
+        count[0] = 0;
+
+        int[] newA = new int[n];
+        
+        for (int i = 0; i < n; i++)
+        {
+            newA[count[array[i]]] = array[i];
+            count[array[i]]++;
         }
         
-        for (int i = 0; i < array.length ; i++)
-        {
-            new_array[count[array[i]]-1] = array[i];
-            count[array[i]]--;
-        }
-        return new_array;
+        for (int i = 0; i < n; ++i)
+            array[i] = newA[i];
     }
 
     void print(int new_array[]){
@@ -35,9 +34,8 @@ public class CountingSort {
     public static void main(String[] args) {
         CountingSort sort = new CountingSort(); 
         int array[] = {5435,8606,9263,5398,3231,6944,3186,1333,1626,245}; 
-        int aux[] = new int[array.length];
-        
-        int[] new_array = sort.count_sort(array,aux);  
-        sort.print(new_array);  
+        int n = array.length;
+        sort.count_sort(array, n);
+        sort.print(array);  
     }
 }

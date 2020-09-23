@@ -1,8 +1,4 @@
-#array = [5435,8606,9263 ,5398, 3231 ,6944, 3186, 1333 ,1626 ,245]
-
-import numpy as np
-A=np.loadtxt("prueba.txt",skiprows=0,dtype = "int")
-array = A
+from timer import Timer
 
 def selection_sort(array):  
     for i in range(len(array)-1):
@@ -13,7 +9,24 @@ def selection_sort(array):
 
         array[primer], array[i] = array[i], array[primer]
 
-selection_sort(array)
-print(array)
-    
-    
+if __name__ == "__main__":
+       
+    index = 0
+    numArrays = int(input())
+    for i in range(numArrays):
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(2):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
+
+            t=Timer(n)   
+            t.start()
+            selection_sort(arr)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))
+        
+       

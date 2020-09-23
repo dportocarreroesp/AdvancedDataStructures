@@ -1,3 +1,4 @@
+from timer import Timer
 
 def heapify(arr, n, i):
     largo = i
@@ -19,11 +20,26 @@ def heapsort(arr, n):
         arr[0], arr[j] = arr[j], arr[0]
         heapify(arr, j, 0)
 
+if __name__ == "__main__":
+       
+    index = 0
+    numArrays = int(input())
+    for i in range(numArrays):
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(10):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
 
-array = [64, 34, 25, 12, 22, 11, 90, 23]
-na = len(array)
-heapsort(array, na)
-for i in range(na):
-    print("%d" % array[i]),
+            t=Timer(n)   
+            t.start()
+            heapsort(arr, n)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))
+        
+       
 
 

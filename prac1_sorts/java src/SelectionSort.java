@@ -15,7 +15,6 @@ public class SelectionSort {
             array[primer] = array[i];
             array[i] = temp;
         }
-
     }
   
     void print(int array[]) 

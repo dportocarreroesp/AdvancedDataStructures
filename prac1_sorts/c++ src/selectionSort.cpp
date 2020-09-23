@@ -30,23 +30,31 @@ void print(int* array, int n){
 
 int main()
 {
-    int numArrays;
-    cin>>numArrays;
+    int numLengths;
+    cin>>numLengths;
 
-    for (int i = 0; i < numArrays; ++i)
+    for (int i = 0; i < numLengths; ++i)
     {
+        float avg = 0;
+        int numArrays = 10;
         int n;
         cin>>n;
-        int* arr = new int [n];
-        for (int i = 0; i < n; ++i)
-            cin>>arr[i];
-        Timer timer;
-        timer.start();
-        selection_sort(arr,n);
-        timer.stop();
-        cout<<n<<' '<<timer.elapsedMilliseconds()<<endl;
-        delete [] arr;
+        for(int j = 0; j < numArrays; ++j)
+        {
+            int* arr = new int [n]{0};
+            for (int k = 0; k < n; ++k)
+                cin>>arr[k];
+            Timer timer;
+            timer.start();
+            selection_sort(arr,n);
+            timer.stop();
+            avg += timer.elapsedMilliseconds();
+            delete [] arr;
+        }
+        avg /= numArrays;
+        cout << n << " " << avg << endl;
     }
     
+
     return 0;
 }

@@ -1,12 +1,4 @@
 from timer import Timer
-
-filer = open('arrays.txt', "r")
-filew = open("countingSortTime.txt","w")
-#lectura de lineas
-lines = []
-for line in filer:
-    lines.append(line)
-filer.close()
 #arreglo ordenado
 array = []
 max = 1000
@@ -29,24 +21,26 @@ def counting_sort(arr,n):
     for i in range(n):
         newA[count[arr[i]]] = arr[i]
         count[arr[i]] += 1
-    array = newA
-
+    arr = newA
 
 if __name__ == "__main__":
-    t=Timer()
+   
     index = 0
-    numArrays = int(lines[index])
+    numArrays = int(input())
     for i in range(numArrays):
-        arr = []
-        index +=1
-        n = int(lines[index])
-        index +=1
-        aux = lines[index].split(" ")
-        for j in range(n):
-            arr.append(int(aux[j]))
-            
-        t.start()
-        counting_sort(arr,n)
-        addtimer = t.stop()
-        filew.writelines([str(n)," ",str(round(addtimer,5)),"\n"])  
-    filew.close()
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(10):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
+
+            t=Timer(n)   
+            t.start()
+            counting_sort(arr,n)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))
+        
+       

@@ -1,13 +1,4 @@
-from timeit import default_timer
-
-filer = open('arrays.txt', "r")
-filew = open("insertionSortTime.txt","w")
-#lectura de lineas
-lines = []
-for line in filer:
-    lines.append(line)
-filer.close()
-
+from timer import Timer
 
 def insertionSort(arr): 
 
@@ -20,24 +11,23 @@ def insertionSort(arr):
                 arr[j + 1] = arr[j] 
                 j -= 1
         arr[j + 1] = key 
-  
+
 if __name__ == "__main__":
+       
     index = 0
-    numArrays = int(lines[index])
+    numArrays = int(input())
     for i in range(numArrays):
-        arr = []
-        index +=1
-        n = int(lines[index])
-        index +=1
-        aux = lines[index].split(" ")
-        for j in range(n):
-            arr.append(int(aux[j]))
-            
-        inicio = default_timer()
-        insertionSort(arr)
-        fin = default_timer()
-        ''' for i in range(n):
-            print(arr[i], end=" ")
-        print() '''
-        filew.writelines([str(n)," ",str(round(((fin-inicio)*1000),3)),"\n"])    
-    filew.close()
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(2):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
+
+            t=Timer(n)   
+            t.start()
+            insertionSort(arr)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))

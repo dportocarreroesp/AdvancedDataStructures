@@ -1,12 +1,4 @@
-from timeit import default_timer
-
-filer = open('arrays.txt', "r")
-filew = open("quickSortTime.txt","w")
-#lectura de lineas
-lines = []
-for line in filer:
-    lines.append(line)
-filer.close()
+from timer import Timer
 
 def partition(arr, low, high):
     pivot = arr[high]
@@ -32,20 +24,21 @@ def printArray(arr, n):
     print()
 
 if __name__ == "__main__":
+       
     index = 0
-    numArrays = int(lines[index])
+    numArrays = int(input())
     for i in range(numArrays):
-        arr = []
-        index +=1
-        n = int(lines[index])
-        index +=1
-        aux = lines[index].split(" ")
-        for j in range(n):
-            arr.append(int(aux[j]))
-            
-        inicio = default_timer()
-        quick_sort(arr,0,n-1)
-        fin = default_timer()
-        #printArray(arr, n)
-        filew.writelines([str(n)," ",str(round(((fin-inicio)*1000),3)),"\n"])    
-    filew.close()
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(10):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
+
+            t=Timer(n)   
+            t.start()
+            quick_sort(arr,0,n-1)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))

@@ -1,31 +1,55 @@
 from timer import Timer
 
-def merge_sort(values): 
-  
-    if len(values)>1: 
-        m = len(values)//2
-        left = values[:m] 
-        right = values[m:] 
-        left = merge_sort(left) 
-        right = merge_sort(right) 
-  
-        values =[] 
-  
-        while len(left)>0 and len(right)>0: 
-            if left[0]<right[0]: 
-                values.append(left[0]) 
-                left.pop(0) 
-            else: 
-                values.append(right[0]) 
-                right.pop(0) 
-  
-        for i in left: 
-            values.append(i) 
-        for i in right: 
-            values.append(i) 
-                  
-    return values 
-  
+def merge(arr, l, m, r):
+    n1 = m - l + 1
+    n2 = r - m
+
+    L = []
+    R = []
+
+    for i in range (0,n1):
+        L.append(arr[l+i])
+    for i in range (0,n2):
+        R.append(arr[m+1+i])
+    i = 0
+    j = 0
+    k = l
+
+    while (i < n1 and j < n2):
+        if (L[i] <= R[j]):
+            arr[k] = L[i]
+            i += 1
+        else:
+            arr[k] = R[j]
+            j += 1
+        k += 1
+
+    while (i < n1):
+        arr[k] = L[i]
+        i += 1
+        k += 1
+    while (j < n2):
+        arr[k] = R[j]
+        j += 1
+        k += 1
+
+
+
+def merge_sort(arr, l, r):
+    if (l < r):
+        m = int(l + (r - l)/2)
+
+        merge_sort(arr, l, m)
+        merge_sort(arr, m+1, r)
+
+        merge(arr, l, m, r)
+
+""" arr = [1, -3, 2, 4, 2]
+print(arr)
+merge_sort(arr,0,4)
+print(arr)
+ """
+
  
 if __name__ == "__main__":
    
@@ -35,14 +59,14 @@ if __name__ == "__main__":
         promedio = 0
         arr = []    
         n = int(input())
-        for j in range(2):
+        for j in range(10):
             aux = input().split(" ")
             for k in range(n):
                 arr.append(int(aux[k]))
 
             t=Timer(n)   
             t.start()
-            merge_sort(arr)
+            merge_sort(arr,0,n-1)
             t.stop()
             promedio += t.printTime()
         print(n,round(promedio/10,3))

@@ -1,3 +1,7 @@
+from timer import Timer
+import sys
+sys.setrecursionlimit(100000)
+
 def partition(arr, low, high):
     pivot = arr[high]
     i = low - 1
@@ -21,13 +25,22 @@ def printArray(arr, n):
         print(arr[i], end=" ")
     print()
 
+if __name__ == "__main__":
+       
+    index = 0
+    numArrays = int(input())
+    for i in range(numArrays):
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(10):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
 
-arr = []
-n = int(input())
-
-for i in range(n):
-    arr.append(int(input()))
-
-quick_sort(arr, 0, n-1)
-
-printArray(arr, n)
+            t=Timer(n)   
+            t.start()
+            quick_sort(arr,0,n-1)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))

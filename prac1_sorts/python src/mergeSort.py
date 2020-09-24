@@ -1,3 +1,5 @@
+from timer import Timer
+
 def merge_sort(values): 
   
     if len(values)>1: 
@@ -25,13 +27,24 @@ def merge_sort(values):
     return values 
   
  
-a = [12, 11, 13, 5, 6, 7] 
-print("ARRAY INICIAL") 
-print(*a) 
-  
-a = merge_sort(a) 
-  
- 
-print("ARRAY FINAL") 
-print(*a) 
-  
+if __name__ == "__main__":
+   
+    index = 0
+    numArrays = int(input())
+    for i in range(numArrays):
+        promedio = 0
+        arr = []    
+        n = int(input())
+        for j in range(2):
+            aux = input().split(" ")
+            for k in range(n):
+                arr.append(int(aux[k]))
+
+            t=Timer(n)   
+            t.start()
+            merge_sort(arr)
+            t.stop()
+            promedio += t.printTime()
+        print(n,round(promedio/10,3))
+        
+       

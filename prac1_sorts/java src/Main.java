@@ -210,8 +210,8 @@ public class Main {
 
     public static void main(String[] args) {
         //Colocar ruta del archivo txt
-        File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays.txt");
-        /* File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays2.txt"); */
+        /* File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays.txt"); */
+        File f = new File("/home/diego/Documents/VI Semestre UNSA/EDA/practica/prac1_sorts/arrays2.txt");
         Main sort = new Main();
         try  (Scanner entrada = new Scanner(f)) {
             int pruebas = entrada.nextInt();
@@ -219,24 +219,24 @@ public class Main {
                 int tamano = entrada.nextInt();
                 System.out.print(tamano + " ");
                 double result = 0;
-                for(int z=0;z<10;z++){
+                for(int z=0;z<5;z++){
                     int[] array = new int[tamano];
                     for(int j=0;j<tamano;j++){
                         array[j] = entrada.nextInt();
                     }
                     long startTime = System.nanoTime();
-                    /* sort.quick_sort(array,0,tamano-1); */
+                    sort.quick_sort(array,0,tamano-1);
                     /* sort.select_sort(array); */
                     /* sort.bubble_sort(array,tamano); */
-                    /* sort.mergesort(array,0,tamano-1); */
+                    sort.mergesort(array,0,tamano-1);
                     /* sort.heapsort(array,tamano); */
                     /* sort.insertionsort(array); */
-                    sort.count_sort(array, tamano);
+                    /* sort.count_sort(array, tamano); */
                     long endTime = System.nanoTime();
                     double tiempo = (endTime-startTime)/1e6;
                     result += tiempo;
                 }
-                result /= 10;
+                result /= 5;
                 System.out.println(result);
             }
         } catch (FileNotFoundException e) {

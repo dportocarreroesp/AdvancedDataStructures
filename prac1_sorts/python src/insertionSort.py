@@ -22,12 +22,15 @@ if __name__ == "__main__":
         n = int(input())
         for j in range(5):
             aux = input().split(" ")
+            
             for k in range(n):
                 arr.append(int(aux[k]))
 
-            t=Timer(n)   
-            t.start()
-            insertionSort(arr)
-            t.stop()
-            promedio += t.printTime()
-        print(n,round(promedio/10,3))
+            if n > 50000:
+                t=Timer(n)   
+                t.start()
+                insertionSort(arr)
+                t.stop()
+                promedio += t.printTime()
+        if n > 50000:
+            print(n,round(promedio/10,3))

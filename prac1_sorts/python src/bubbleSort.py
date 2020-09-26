@@ -23,10 +23,11 @@ if __name__ == "__main__":
             aux = input().split(" ")
             for k in range(n):
                 arr.append(int(aux[k]))
-
-            t=Timer(n)   
-            t.start()
-            bubble_sort(arr,n)
-            t.stop()
-            promedio += t.printTime()
-        print(n,round(promedio/10,3))
+            if n >= 60000 and n <= 80000:
+                t=Timer(n)   
+                t.start()
+                bubble_sort(arr,n)
+                t.stop()
+                promedio += t.printTime()
+        if n >= 60000 and n <= 80000:
+            print(n,round(promedio/10,3))

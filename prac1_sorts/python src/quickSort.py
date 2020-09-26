@@ -33,7 +33,7 @@ if __name__ == "__main__":
         promedio = 0
         arr = []    
         n = int(input())
-        for j in range(10):
+        for j in range(5):
             aux = input().split(" ")
             for k in range(n):
                 arr.append(int(aux[k]))

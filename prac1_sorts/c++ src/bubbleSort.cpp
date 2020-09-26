@@ -27,7 +27,7 @@ int main()
     for (int i = 0; i < numLengths; ++i)
     {
         float avg = 0;
-        int numArrays = 10;
+        int numArrays = 5;
         int n;
         cin>>n;
         for(int j = 0; j < numArrays; ++j)

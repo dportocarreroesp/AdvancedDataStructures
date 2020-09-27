@@ -7,10 +7,10 @@ datos=pd.read_csv('TimeComparacion.csv',header=0,iterator=True, chunksize=10)
 
 for chunk in datos:
 	x = list(chunk.iloc[:,0])
-	y1 = list(chunk.iloc[:,1])
-	y2 = list(chunk.iloc[:,2])
-	y3 = list(chunk.iloc[:,4])
-	y4 = list(chunk.iloc[:,5])
+	y1 = list(chunk.iloc[:,7])
+	y2 = list(chunk.iloc[:,3])
+	y3 = list(chunk.iloc[:,6])
+	#y4 = list(chunk.iloc[:,5])
 
 #	print(x)
 #	print(y)
@@ -19,9 +19,9 @@ print(x)
 print(y1)
 print(y2)
 print(y3)
-print(y4)
-plot(x,y1,'bp-',x,y2,'rd-',x,y3,'go-',x,y4,'m<-')
-legend(('couting','heap','merge','quick'),prop = {'size':10},loc='upper left')
+#print(y4)
+plot(x,y1,'bp-',x,y2,'rd-',x,y3,'go-')
+legend(('bubble','insertion','selection'),prop = {'size':10},loc='upper left')
 '''
 x,y3,'go-',
 ,'merge'

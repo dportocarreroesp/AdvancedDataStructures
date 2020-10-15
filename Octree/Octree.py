@@ -15,7 +15,6 @@ def findAndDraw():
         sphereSource.SetCenter(xs, ys, zs)
         sphereSource.SetRadius(20)
 
-        # Make the surface smooth.
         sphereSource.SetPhiResolution(100)
         sphereSource.SetThetaResolution(100)
 
@@ -37,6 +36,7 @@ def keypress_callback(obj, ev):
         renderer.AddActor(cubeActor)
         findAndDraw()
         qt.show()
+        renderWindow.Render()
 
 
 
@@ -263,7 +263,7 @@ volumen = Cube(0, 0, 0, 400, 400, 400)
 volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
-for i in range(10):
+for i in range(0):
     xs = random.uniform(-399, 399)  # -400,400
     ys = random.uniform(-400, 400)  # -400,400
     zs = random.uniform(-400, 400)  # -400,400

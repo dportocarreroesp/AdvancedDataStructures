@@ -1,5 +1,7 @@
 import vtk
 import random
+import Tkinter as Tk
+
 
 colors = vtk.vtkNamedColors()
 
@@ -84,6 +86,26 @@ class Octree:
 
         self.divided = True
 
+    def query(self,rango,found):
+        if(not found):
+            found = []
+        if(not rango.intersects(self.volumen)):
+            return found
+        for i in range(len(self.points)):
+            if(rango.contains(i)):
+                found.append(i)
+        if(self.divided):
+            self.northeastfront.query(rango, found)
+            self.northwestfront.query(rango, found)
+            self.southeastfront.query(rango, found)
+            self.southwestfront.query(rango, found)
+            self.northeastback.query(rango, found)
+            self.northwestback.query(rango, found)
+            self.southeastback.query(rango, found)
+            self.southwestback.query(rango, found)
+        return found
+        
+
     def insert(self,point):
         if(not self.volumen.contains(point)):
             return
@@ -104,7 +126,7 @@ class Octree:
 
         else:
             if( not self.divided):
-                self.subdivide();
+                self.subdivide()
             self.northeastfront.insert(point)
             self.northwestfront.insert(point)
             self.northeastback.insert(point)
@@ -185,7 +207,7 @@ def setup():
     volumen = Cube(0,0,0,400,400,400)
     qt = Octree(volumen,4)
     # Create a sphere
-    for i in range(5):
+    for i in range(100):
         xs = random.uniform(-399,399)#-400,400
         ys = random.uniform(-400,400)#-400,400
         zs = random.uniform(-400,400)#-400,400
@@ -193,6 +215,9 @@ def setup():
         qt.insert(p)
 
 
+    rango = Cube(event.x, event.y, 50 , 50)
+    points = []
+    qt.query(rango,points)
     qt.show()
     print(qt.points)
     #renderer.AddActor(cubeActor)
@@ -200,6 +225,9 @@ def setup():
     renderWindow.SetSize(1000,1000)
     renderWindow.Render()
     renderWindowInteractor.Start()
+
+    
+
 
 
 setup()

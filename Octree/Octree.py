@@ -259,8 +259,6 @@ class Octree:
         renderer.AddActor(cubeActor)
 
 volumen = Cube(0, 0, 0, 400, 400, 400)
-
-volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
 for i in range(10):

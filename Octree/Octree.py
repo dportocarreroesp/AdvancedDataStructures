@@ -4,7 +4,14 @@ import random
 
 colors = vtk.vtkNamedColors()
 
-# asignar actor al renderizado
+def keypress_callback(obj, ev):
+    key = obj.GetKeySym()
+    if(key == 'l'):
+        qt.insert(Point(random.uniform(-399, 399),random.uniform(-400, 400),random.uniform(-400, 400)))
+        renderer.RemoveAllViewProps()
+        qt.show()
+
+
 
 renderer = vtk.vtkRenderer()
 renderWindow = vtk.vtkRenderWindow()
@@ -12,6 +19,7 @@ renderWindow.SetWindowName("Octree")
 renderWindow.AddRenderer(renderer)
 
 renderWindowInteractor = vtk.vtkRenderWindowInteractor()
+renderWindowInteractor.AddObserver('KeyPressEvent', keypress_callback, 1.0)
 renderWindowInteractor.SetRenderWindow(renderWindow)
 
 
@@ -77,7 +85,7 @@ class Octree:
 
         nefront = Cube(x+w/2, y+h/2, z+d/2, w/2, h/2, d/2)
         self.northeastfront = Octree(
-            nefront, self.capacity, color)
+            nefront, self.capacity, (boundedSum(color[0], 0.1), boundedSum(color[1], 0.1), boundedSum(color[2], 0.1)))
 
         nwfront = Cube(x-w/2, y+h/2, z+d/2, w/2, h/2, d/2)
         self.northwestfront = Octree(
@@ -213,13 +221,14 @@ class Octree:
 
         renderer.AddActor(cubeActor)
 
+volumen = Cube(0, 0, 0, 400, 400, 400)
 
+qt = Octree(volumen, 4, (0.0000, 0, 1))
 def setup():
 
-    volumen = Cube(0, 0, 0, 400, 400, 400)
-    qt = Octree(volumen, 4, (0.0000, 1, 0))
+    
     # Create a sphere
-    for i in range(50):
+    for i in range(0):
         xs = random.uniform(-399, 399)  # -400,400
         ys = random.uniform(-400, 400)  # -400,400
         zs = random.uniform(-400, 400)  # -400,400

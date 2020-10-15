@@ -1,6 +1,9 @@
 import vtk
 import threading
 import random
+import keyboard
+import time
+from pynput import keyboard as kb
 
 colors = vtk.vtkNamedColors()
 
@@ -24,14 +27,14 @@ renderWindowInteractor.SetRenderWindow(renderWindow)
 
 
 def randomColor():
-    return (random.uniform(1, 1000)/1000, random.uniform(1, 1000)/1000, random.uniform(1, 1000)/1000)
+    return (random.uniform(1, 1000) / 1000, random.uniform(1, 1000) / 1000, random.uniform(1, 1000) / 1000)
 
 
 def boundedSum(a, b):
-    if(a+b > 1.0):
-        return 1-a+b
+    if (a + b > 1.0):
+        return 1 - a + b
     else:
-        return a+b
+        return a + b
 
 
 class Point:
@@ -51,16 +54,16 @@ class Cube:
         self.d = d
 
     def contains(self, point):
-        if(point.x >= self.x - self.w and point.x <= self.x + self.w and
-           point.y >= self.y - self.h and point.y <= self.y + self.h and
-           point.z >= self.z - self.d and point.z <= self.z + self.d):
+        if (point.x >= self.x - self.w and point.x <= self.x + self.w and
+                point.y >= self.y - self.h and point.y <= self.y + self.h and
+                point.z >= self.z - self.d and point.z <= self.z + self.d):
             return True
         return False
 
     def intersects(self, range):
-        if(range.x - range.w > self.x + self.w or range.x + range.w < self.x - self.w or
-           range.y - range.h > self.y + self.h or range.y + range.h < self.y - self.h or
-           range.z - range.d > self.z + self.d or range.z + range.d < self.z - self.d):
+        if (range.x - range.w > self.x + self.w or range.x + range.w < self.x - self.w or
+                range.y - range.h > self.y + self.h or range.y + range.h < self.y - self.h or
+                range.z - range.d > self.z + self.d or range.z + range.d < self.z - self.d):
             return False
         return True
 
@@ -83,66 +86,59 @@ class Octree:
 
         color = self.color
 
-        nefront = Cube(x+w/2, y+h/2, z+d/2, w/2, h/2, d/2)
+        nefront = Cube(x + w / 2, y + h / 2, z + d / 2, w / 2, h / 2, d / 2)
         self.northeastfront = Octree(
             nefront, self.capacity, (boundedSum(color[0], 0.1), boundedSum(color[1], 0.1), boundedSum(color[2], 0.1)))
 
-        nwfront = Cube(x-w/2, y+h/2, z+d/2, w/2, h/2, d/2)
+        nwfront = Cube(x - w / 2, y + h / 2, z + d / 2, w / 2, h / 2, d / 2)
         self.northwestfront = Octree(
             nwfront, self.capacity, (boundedSum(color[0], 0.2), color[1], color[2]))
 
-        sefront = Cube(x+w/2, y-h/2, z+d/2, w/2, h/2, d/2)
+        sefront = Cube(x + w / 2, y - h / 2, z + d / 2, w / 2, h / 2, d / 2)
         self.southeastfront = Octree(
             sefront, self.capacity, (color[0], boundedSum(color[1], 0.2), color[2]))
 
-        swfront = Cube(x-w/2, y-h/2, z+d/2, w/2, h/2, d/2)
+        swfront = Cube(x - w / 2, y - h / 2, z + d / 2, w / 2, h / 2, d / 2)
         self.southwestfront = Octree(
             swfront, self.capacity, (color[0], color[1], boundedSum(color[2], 0.2)))
 
-        neback = Cube(x+w/2, y+h/2, z-d/2, w/2, h/2, d/2)
+        neback = Cube(x + w / 2, y + h / 2, z - d / 2, w / 2, h / 2, d / 2)
         self.northeastback = Octree(
             neback, self.capacity, (boundedSum(color[0], 0.5), boundedSum(color[1], 0.5), color[2]))
 
-        nwback = Cube(x-w/2, y+h/2, z-d/2, w/2, h/2, d/2)
+        nwback = Cube(x - w / 2, y + h / 2, z - d / 2, w / 2, h / 2, d / 2)
         self.northwestback = Octree(
             nwback, self.capacity, (color[0], boundedSum(color[1], 0.7), boundedSum(color[2], 0.5)))
 
-        seback = Cube(x+w/2, y-h/2, z-d/2, w/2, h/2, d/2)
+        seback = Cube(x + w / 2, y - h / 2, z - d / 2, w / 2, h / 2, d / 2)
         self.southeastback = Octree(
             seback, self.capacity, (boundedSum(color[0], 0.7), color[1], boundedSum(color[2], 0.7)))
 
-        swback = Cube(x-w/2, y-h/2, z-d/2, w/2, h/2, d/2)
+        swback = Cube(x - w / 2, y - h / 2, z - d / 2, w / 2, h / 2, d / 2)
         self.southwestback = Octree(
             swback, self.capacity, (boundedSum(color[0], 0.1), boundedSum(color[1], 0.1), boundedSum(color[2], 0.1)))
         """ 
         nefront = Cube(x+w/2, y+h/2, z+d/2, w/2, h/2, d/2)
         self.northeastfront = Octree(
             nefront, self.capacity, color)
-
         nwfront = Cube(x-w/2, y+h/2, z+d/2, w/2, h/2, d/2)
         self.northwestfront = Octree(
             nwfront, self.capacity, randomColor())
-
         sefront = Cube(x+w/2, y-h/2, z+d/2, w/2, h/2, d/2)
         self.southeastfront = Octree(
             sefront, self.capacity, randomColor())
-
         swfront = Cube(x-w/2, y-h/2, z+d/2, w/2, h/2, d/2)
         self.southwestfront = Octree(
             swfront, self.capacity, randomColor())
-
         neback = Cube(x+w/2, y+h/2, z-d/2, w/2, h/2, d/2)
         self.northeastback = Octree(
             neback, self.capacity, randomColor())
-
         nwback = Cube(x-w/2, y+h/2, z-d/2, w/2, h/2, d/2)
         self.northwestback = Octree(
             nwback, self.capacity, randomColor())
-
         seback = Cube(x+w/2, y-h/2, z-d/2, w/2, h/2, d/2)
         self.southeastback = Octree(
             seback, self.capacity, randomColor())
-
         swback = Cube(x-w/2, y-h/2, z-d/2, w/2, h/2, d/2)
         self.southwestback = Octree(
             swback, self.capacity, randomColor()) """
@@ -150,14 +146,14 @@ class Octree:
         self.divided = True
 
     def insert(self, point):
-        if(not self.volumen.contains(point)):
+        if (not self.volumen.contains(point)):
             return
-        if(len(self.points) < self.capacity):
+        if (len(self.points) < self.capacity):
             new_point = Point(point.x, point.y, point.z)
             self.points.append(new_point)
 
         else:
-            if(not self.divided):
+            if (not self.divided):
                 self.subdivide()
             self.northeastfront.insert(point)
             self.northwestfront.insert(point)
@@ -168,12 +164,29 @@ class Octree:
             self.southeastback.insert(point)
             self.southwestback.insert(point)
 
+    def query(self, rango, found):
+        if (not rango.intersects(self.volumen)):
+            return found
+        for i in range(len(self.points)):
+            if (rango.contains(self.points[i])):
+                found.append(self.points[i])
+        if (self.divided):
+            self.northeastfront.query(rango, found)
+            self.northwestfront.query(rango, found)
+            self.southeastfront.query(rango, found)
+            self.southwestfront.query(rango, found)
+            self.northeastback.query(rango, found)
+            self.northwestback.query(rango, found)
+            self.southeastback.query(rango, found)
+            self.southwestback.query(rango, found)
+        return found
+
     def show(self):
         cube = vtk.vtkCubeSource()
         cube.SetCenter(self.volumen.x, self.volumen.y, self.volumen.z)
-        cube.SetXLength(self.volumen.w*2)
-        cube.SetYLength(self.volumen.h*2)
-        cube.SetZLength(self.volumen.d*2)
+        cube.SetXLength(self.volumen.w * 2)
+        cube.SetYLength(self.volumen.h * 2)
+        cube.SetZLength(self.volumen.d * 2)
         cube.Update()
 
         # Mpear
@@ -186,7 +199,7 @@ class Octree:
         cubeActor.GetProperty().SetOpacity(0.3)
         cubeActor.GetProperty().SetColor(self.color)
 
-        if(self.divided):
+        if (self.divided):
             self.northeastfront.show()
             self.northwestfront.show()
             self.northeastback.show()
@@ -223,6 +236,7 @@ class Octree:
 
 volumen = Cube(0, 0, 0, 400, 400, 400)
 
+<<<<<<< HEAD
 qt = Octree(volumen, 4, (0.0000, 0, 1))
 def setup():
 
@@ -248,4 +262,65 @@ def setup():
 setup()
 
 #p1 = Point(0,0,0)
+=======
+volumen = Cube(0, 0, 0, 400, 400, 400)
+qt = Octree(volumen, 4, (0.0000, 1, 0))
+
+for i in range(200):
+    xs = random.uniform(-399, 399)  # -400,400
+    ys = random.uniform(-400, 400)  # -400,400
+    zs = random.uniform(-400, 400)  # -400,400
+    p = Point(xs, ys, zs)
+    qt.insert(p)
+
+qt.show()
+
+busqueda = Cube(0, 300, 0, 120, 120, 120)
+cube = vtk.vtkCubeSource()
+found = []
+qt.query(busqueda,found)
+for i in range(len(found)):
+    sphereSource = vtk.vtkSphereSource()
+    xs = found[i].x
+    ys = found[i].y
+    zs = found[i].z
+    sphereSource.SetCenter(xs, ys, zs)
+    sphereSource.SetRadius(20)
+
+    # Make the surface smooth.
+    sphereSource.SetPhiResolution(100)
+    sphereSource.SetThetaResolution(100)
+
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputConnection(sphereSource.GetOutputPort())
+
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+
+    actor.GetProperty().SetColor(0,0,0)
+
+    renderer.AddActor(actor)
+cube.SetCenter(0, 300, 0)
+cube.SetXLength(120 * 2)
+cube.SetYLength(120 * 2)
+cube.SetZLength(120 * 2)
+cube.Update()
+cubeMapper = vtk.vtkPolyDataMapper()
+cubeMapper.SetInputData(cube.GetOutput())
+
+# Actor.
+cubeActor = vtk.vtkActor()
+cubeActor.SetMapper(cubeMapper)
+cubeActor.GetProperty().SetOpacity(0.01)
+cubeActor.GetProperty().SetColor(254, 0, 0)
+renderer.AddActor(cubeActor)
+
+renderer.SetBackground((0.0, 0.0, 0.0))
+
+renderWindow.SetSize(1000, 1000)
+renderWindow.Render()
+renderWindowInteractor.Start()
+
+# p1 = Point(0,0,0)
+>>>>>>> 788b7a96ff63097020a4bddd7e2c962cd8f7aa0b
 # p1.impri()

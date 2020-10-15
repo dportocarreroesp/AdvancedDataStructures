@@ -1,6 +1,9 @@
 import vtk
 import threading
 import random
+import keyboard
+import time
+from pynput import keyboard as kb
 
 colors = vtk.vtkNamedColors()
 
@@ -213,30 +216,49 @@ class Octree:
 
         renderer.AddActor(cubeActor)
 
-
-def setup():
-
-    volumen = Cube(0, 0, 0, 400, 400, 400)
-    qt = Octree(volumen, 4, (0.0000, 1, 0))
-    # Create a sphere
-    for i in range(50):
-        xs = random.uniform(-399, 399)  # -400,400
-        ys = random.uniform(-400, 400)  # -400,400
-        zs = random.uniform(-400, 400)  # -400,400
-        p = Point(xs, ys, zs)
-        qt.insert(p)
-
-    qt.show()
-    # renderer.AddActor(cubeActor)
-    renderer.SetBackground((0.0, 0.0, 0.0))
-
-    renderWindow.SetSize(1000, 1000)
-    renderWindow.Render()
-    renderWindowInteractor.Start()
     
 
 
-setup()
+
+
+volumen = Cube(0, 0, 0, 400, 400, 400)
+qt = Octree(volumen, 4, (0.0000, 1, 0))
+
+for i in range(30):
+    xs = random.uniform(-399, 399)  # -400,400
+    ys = random.uniform(-400, 400)  # -400,400
+    zs = random.uniform(-400, 400)  # -400,400
+    p = Point(xs, ys, zs)
+    qt.insert(p)
+
+qt.show()
+
+busqueda = Cube(0, 600, 0, 60, 60, 60)
+cube = vtk.vtkCubeSource()
+cube.SetCenter(0, 0, 600)
+cube.SetXLength(60 * 2)
+cube.SetYLength(60 * 2)
+cube.SetZLength(60 * 2)
+cube.Update()
+cubeMapper = vtk.vtkPolyDataMapper()
+cubeMapper.SetInputData(cube.GetOutput())
+
+# Actor.
+cubeActor = vtk.vtkActor()
+cubeActor.SetMapper(cubeMapper)
+cubeActor.GetProperty().SetOpacity(0.2)
+cubeActor.GetProperty().SetColor(254, 0, 0)
+renderer.AddActor(cubeActor)
+
+renderer.SetBackground((0.0, 0.0, 0.0))
+
+renderWindow.SetSize(1000, 1000)
+renderWindow.Render()
+renderWindowInteractor.Start()
+
+
+
+
 
 #p1 = Point(0,0,0)
 # p1.impri()

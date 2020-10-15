@@ -157,13 +157,11 @@ class Octree:
             self.southwestback.insert(point)
 
     def query(self, rango, found):
-        if (not found):
-            found = []
         if (not rango.intersects(self.volumen)):
             return found
         for i in range(len(self.points)):
-            if (rango.contains(i)):
-                found.append(i)
+            if (rango.contains(self.points[i])):
+                found.append(self.points[i])
         if (self.divided):
             self.northeastfront.query(rango, found)
             self.northwestfront.query(rango, found)
@@ -174,7 +172,7 @@ class Octree:
             self.southeastback.query(rango, found)
             self.southwestback.query(rango, found)
         return found
-    
+
     def show(self):
         cube = vtk.vtkCubeSource()
         cube.SetCenter(self.volumen.x, self.volumen.y, self.volumen.z)
@@ -232,7 +230,7 @@ class Octree:
 volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
-for i in range(30):
+for i in range(200):
     xs = random.uniform(-399, 399)  # -400,400
     ys = random.uniform(-400, 400)  # -400,400
     zs = random.uniform(-400, 400)  # -400,400
@@ -241,12 +239,35 @@ for i in range(30):
 
 qt.show()
 
-busqueda = Cube(0, 600, 0, 60, 60, 60)
+busqueda = Cube(0, 300, 0, 120, 120, 120)
 cube = vtk.vtkCubeSource()
-cube.SetCenter(0, 0, 600)
-cube.SetXLength(60 * 2)
-cube.SetYLength(60 * 2)
-cube.SetZLength(60 * 2)
+found = []
+qt.query(busqueda,found)
+for i in range(len(found)):
+    sphereSource = vtk.vtkSphereSource()
+    xs = found[i].x
+    ys = found[i].y
+    zs = found[i].z
+    sphereSource.SetCenter(xs, ys, zs)
+    sphereSource.SetRadius(20)
+
+    # Make the surface smooth.
+    sphereSource.SetPhiResolution(100)
+    sphereSource.SetThetaResolution(100)
+
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputConnection(sphereSource.GetOutputPort())
+
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+
+    actor.GetProperty().SetColor(0,0,0)
+
+    renderer.AddActor(actor)
+cube.SetCenter(0, 300, 0)
+cube.SetXLength(120 * 2)
+cube.SetYLength(120 * 2)
+cube.SetZLength(120 * 2)
 cube.Update()
 cubeMapper = vtk.vtkPolyDataMapper()
 cubeMapper.SetInputData(cube.GetOutput())
@@ -254,7 +275,7 @@ cubeMapper.SetInputData(cube.GetOutput())
 # Actor.
 cubeActor = vtk.vtkActor()
 cubeActor.SetMapper(cubeMapper)
-cubeActor.GetProperty().SetOpacity(0.2)
+cubeActor.GetProperty().SetOpacity(0.01)
 cubeActor.GetProperty().SetColor(254, 0, 0)
 renderer.AddActor(cubeActor)
 

@@ -1,9 +1,6 @@
 import vtk
-import threading
 import random
-import keyboard
 import time
-from pynput import keyboard as kb
 
 colors = vtk.vtkNamedColors()
 
@@ -12,6 +9,7 @@ def keypress_callback(obj, ev):
     if(key == 'l'):
         qt.insert(Point(random.uniform(-399, 399),random.uniform(-400, 400),random.uniform(-400, 400)))
         renderer.RemoveAllViewProps()
+        renderer.AddActor(cubeActor)
         qt.show()
 
 
@@ -236,33 +234,6 @@ class Octree:
 
 volumen = Cube(0, 0, 0, 400, 400, 400)
 
-<<<<<<< HEAD
-qt = Octree(volumen, 4, (0.0000, 0, 1))
-def setup():
-
-    
-    # Create a sphere
-    for i in range(0):
-        xs = random.uniform(-399, 399)  # -400,400
-        ys = random.uniform(-400, 400)  # -400,400
-        zs = random.uniform(-400, 400)  # -400,400
-        p = Point(xs, ys, zs)
-        qt.insert(p)
-
-    qt.show()
-    # renderer.AddActor(cubeActor)
-    renderer.SetBackground((0.0, 0.0, 0.0))
-
-    renderWindow.SetSize(1000, 1000)
-    renderWindow.Render()
-    renderWindowInteractor.Start()
-    
-
-
-setup()
-
-#p1 = Point(0,0,0)
-=======
 volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
@@ -274,8 +245,10 @@ for i in range(200):
     qt.insert(p)
 
 qt.show()
-
-busqueda = Cube(0, 300, 0, 120, 120, 120)
+xs = random.uniform(-399, 399)
+ys = random.uniform(-400, 400)
+zs = random.uniform(-400, 400)
+busqueda = Cube(xs, ys, zs, 120, 120, 120)
 cube = vtk.vtkCubeSource()
 found = []
 qt.query(busqueda,found)
@@ -300,10 +273,10 @@ for i in range(len(found)):
     actor.GetProperty().SetColor(0,0,0)
 
     renderer.AddActor(actor)
-cube.SetCenter(0, 300, 0)
-cube.SetXLength(120 * 2)
-cube.SetYLength(120 * 2)
-cube.SetZLength(120 * 2)
+cube.SetCenter(busqueda.x, busqueda.y, busqueda.z)
+cube.SetXLength(busqueda.w*2)
+cube.SetYLength(busqueda.h*2)
+cube.SetZLength(busqueda.d*2)
 cube.Update()
 cubeMapper = vtk.vtkPolyDataMapper()
 cubeMapper.SetInputData(cube.GetOutput())
@@ -311,7 +284,7 @@ cubeMapper.SetInputData(cube.GetOutput())
 # Actor.
 cubeActor = vtk.vtkActor()
 cubeActor.SetMapper(cubeMapper)
-cubeActor.GetProperty().SetOpacity(0.01)
+cubeActor.GetProperty().SetOpacity(0.2)
 cubeActor.GetProperty().SetColor(254, 0, 0)
 renderer.AddActor(cubeActor)
 
@@ -322,5 +295,4 @@ renderWindow.Render()
 renderWindowInteractor.Start()
 
 # p1 = Point(0,0,0)
->>>>>>> 788b7a96ff63097020a4bddd7e2c962cd8f7aa0b
 # p1.impri()

@@ -4,12 +4,38 @@ import time
 
 colors = vtk.vtkNamedColors()
 
+def findAndDraw():
+    found = []
+    qt.query(busqueda,found)
+    for i in range(len(found)):
+        sphereSource = vtk.vtkSphereSource()
+        xs = found[i].x
+        ys = found[i].y
+        zs = found[i].z
+        sphereSource.SetCenter(xs, ys, zs)
+        sphereSource.SetRadius(20)
+
+        # Make the surface smooth.
+        sphereSource.SetPhiResolution(100)
+        sphereSource.SetThetaResolution(100)
+
+        mapper = vtk.vtkPolyDataMapper()
+        mapper.SetInputConnection(sphereSource.GetOutputPort())
+
+        actor = vtk.vtkActor()
+        actor.SetMapper(mapper)
+
+        actor.GetProperty().SetColor(0,0,0)
+
+        renderer.AddActor(actor)
+
 def keypress_callback(obj, ev):
     key = obj.GetKeySym()
     if(key == 'l'):
         qt.insert(Point(random.uniform(-399, 399),random.uniform(-400, 400),random.uniform(-400, 400)))
         renderer.RemoveAllViewProps()
         renderer.AddActor(cubeActor)
+        findAndDraw()
         qt.show()
 
 
@@ -237,7 +263,7 @@ volumen = Cube(0, 0, 0, 400, 400, 400)
 volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
-for i in range(200):
+for i in range(10):
     xs = random.uniform(-399, 399)  # -400,400
     ys = random.uniform(-400, 400)  # -400,400
     zs = random.uniform(-400, 400)  # -400,400
@@ -248,31 +274,9 @@ qt.show()
 xs = random.uniform(-399, 399)
 ys = random.uniform(-400, 400)
 zs = random.uniform(-400, 400)
+
 busqueda = Cube(xs, ys, zs, 120, 120, 120)
 cube = vtk.vtkCubeSource()
-found = []
-qt.query(busqueda,found)
-for i in range(len(found)):
-    sphereSource = vtk.vtkSphereSource()
-    xs = found[i].x
-    ys = found[i].y
-    zs = found[i].z
-    sphereSource.SetCenter(xs, ys, zs)
-    sphereSource.SetRadius(20)
-
-    # Make the surface smooth.
-    sphereSource.SetPhiResolution(100)
-    sphereSource.SetThetaResolution(100)
-
-    mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInputConnection(sphereSource.GetOutputPort())
-
-    actor = vtk.vtkActor()
-    actor.SetMapper(mapper)
-
-    actor.GetProperty().SetColor(0,0,0)
-
-    renderer.AddActor(actor)
 cube.SetCenter(busqueda.x, busqueda.y, busqueda.z)
 cube.SetXLength(busqueda.w*2)
 cube.SetYLength(busqueda.h*2)
@@ -280,6 +284,8 @@ cube.SetZLength(busqueda.d*2)
 cube.Update()
 cubeMapper = vtk.vtkPolyDataMapper()
 cubeMapper.SetInputData(cube.GetOutput())
+
+findAndDraw()
 
 # Actor.
 cubeActor = vtk.vtkActor()

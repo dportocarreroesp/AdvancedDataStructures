@@ -258,15 +258,10 @@ class Octree:
 
         renderer.AddActor(cubeActor)
 
-<<<<<<< HEAD
-#volumen = Cube(0, 0, 0, 400, 400, 400)
-
-=======
->>>>>>> 2729ad013f720f41218c7222fcec1bcf323cdeb3
 volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
-for i in range(0):
+for i in range(10):
     xs = random.uniform(-399, 399)  # -400,400
     ys = random.uniform(-400, 400)  # -400,400
     zs = random.uniform(-400, 400)  # -400,400

@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
     cv::Mat palette(0, 500, CV_8UC3, cv::Scalar(0,0,0));
 
     quantization.get_palette(palette);
-    cv::namedWindow("Paletazo", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Paletazo", palette);
+    cv::namedWindow("Paleta", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Paleta", palette);
 
     quantization.reconstruction(image);
 

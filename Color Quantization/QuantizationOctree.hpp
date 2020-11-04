@@ -51,9 +51,10 @@ struct ColorNode
         for (int i = 0; i < 8; i++)
             childs[i] = nullptr;
     }
+    void search_color(cv::Mat &palette);
 
     ~ColorNode();
-    // Sacar definicion de constructor
+
     ColorNode(int level, int pixelCount, Color color, bool isLeaf)
     {
         this->level = level;
@@ -76,6 +77,24 @@ ColorNode::~ColorNode()
 
     for (int i = 0; i < 8; i++)
         delete childs[i];
+}
+
+void ColorNode::search_color(cv::Mat &palette)
+{
+    if (isLeaf)
+    {
+        if (pixelCount > 0)
+        {
+            uchar colorb = (color.b) / (pixelCount);
+            uchar colorg = (color.g) / (pixelCount);
+            uchar colorr = (color.r) / (pixelCount);
+            palette.push_back(cv::Mat(10, 500, CV_8UC3, cv::Scalar(colorb, colorg, colorr)));
+        }
+        return;
+    }
+
+    for (int i = 0; i < 8; i++)
+        childs[i]->search_color(palette);
 }
 
 void ColorNode::add_level(int height)
@@ -131,6 +150,8 @@ public:
     void fill(cv::Mat &image);
     void reduction();
     void reconstruction(cv::Mat &image);
+    void get_palette(cv::Mat &palette);
+    void search_color(ColorNode *path, ColorNode *aux);
     ~QuantizationOctree();
 };
 
@@ -146,7 +167,6 @@ void QuantizationOctree::fill(cv::Mat &image)
     int nRows = image.rows;
     int nCols = image.cols * channels;
 
-    // Imagen en forma 1 x n
     if (image.isContinuous())
     {
         nCols *= nRows;
@@ -220,4 +240,9 @@ void QuantizationOctree::reconstruction(cv::Mat &image)
             p[j + 2] = (path->color.r) / (path->pixelCount);
         }
     }
+}
+
+void QuantizationOctree::get_palette(cv::Mat &palette)
+{
+    root->search_color(palette);
 }

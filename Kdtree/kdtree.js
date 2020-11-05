@@ -8,14 +8,44 @@ class Node {
         this.axis = axis;
     }
 }
-function getHeight(node){
+
+function preorden(node){
     if (!node)
         return;
     console.log(node.point);
-    getHeight(node.left);
-    getHeight(node.right);
+    preorden(node.left);
+    preorden(node.right);
 }
-function generate_dot (node){}
+function getHeight(node){
+}
+function generate_dot(node){
+    
+    let txt = "";
+    if(node)
+    {
+        if(node.left)
+        {      
+            txt = txt + "\t";
+            txt = txt + node.point;
+            txt = txt + " -> ";
+            txt = txt + node.left.point;
+            txt = txt +";\n";
+            txt = txt + generate_dot(node.left);
+        }
+        if(node.right)
+        {
+            txt = txt + "\t";
+            txt = txt + node.point;
+            txt = txt + " -> ";
+            txt = txt + node.right.point;
+            txt = txt +";\n";
+            txt = txt + generate_dot(node.right);
+
+        }
+    }
+    return txt;
+}
+
 function build_kdtree(points,depth = 0){
     if(points.length == 0){
         return null;
@@ -52,4 +82,10 @@ function build_kdtree(points,depth = 0){
 const arr = [[10, 4], [40, 32], [67, 12], [43, 31], [65, 1]];
 arr.sort((a,b)=>a[0] - b[0]);
 let root = build_kdtree(arr);
-getHeight(root);
+//getHeight(root);
+preorden(root);
+string = "digraph G {\n";
+string = string + generate_dot(root);
+string = string + "}\n";
+
+console.log(string);

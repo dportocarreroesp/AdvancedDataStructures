@@ -20,9 +20,9 @@ function setup(){
 		data.push([x, y]);
 
 		fill(225, 225, 225);
-		circle(x, height - y, 7);
+		circle(x, 200 - y, 7);
 		textSize(8);
-		text(x + ',' + y, x + 5, height - y);
+		text(x + ',' + y, x + 5, 200 - y);
 	}
 
 	var root = build_kdtree(data);

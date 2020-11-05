@@ -87,17 +87,3 @@ function build_kdtree(points,depth = 0){
 //string = string + generate_dot(root);
 //string = string + "}\n";
 //console.log(string);
-
-
-/* 
-const lib =  require('./library');
-
-//const fs = require('fs') 
-// Data which will write in a file. 
- 
-// Write data in 'Output.txt' . 
-lib.writeFile('Text.txt', string, (err) => { 
-    // In case of a error throw err. 
-    if (err) throw err; 
-}) 
- */

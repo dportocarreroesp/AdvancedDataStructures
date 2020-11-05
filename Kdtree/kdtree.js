@@ -79,13 +79,25 @@ function build_kdtree(points,depth = 0){
     return node;
 
 }
-const arr = [[10, 4], [40, 32], [67, 12], [43, 31], [65, 1]];
-arr.sort((a,b)=>a[0] - b[0]);
-let root = build_kdtree(arr);
+//const arr = [[10, 4], [40, 32], [67, 12], [43, 31], [65, 1]];
+//let root = build_kdtree(arr);
 //getHeight(root);
-preorden(root);
-string = "digraph G {\n";
-string = string + generate_dot(root);
-string = string + "}\n";
+//preorden(root);
+//string = "digraph G {\n";
+//string = string + generate_dot(root);
+//string = string + "}\n";
+//console.log(string);
 
-console.log(string);
+
+/* 
+const lib =  require('./library');
+
+//const fs = require('fs') 
+// Data which will write in a file. 
+ 
+// Write data in 'Output.txt' . 
+lib.writeFile('Text.txt', string, (err) => { 
+    // In case of a error throw err. 
+    if (err) throw err; 
+}) 
+ */

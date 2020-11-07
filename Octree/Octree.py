@@ -141,7 +141,7 @@ class Octree:
         swback = Cube(x - w / 2, y - h / 2, z - d / 2, w / 2, h / 2, d / 2)
         self.southwestback = Octree(
             swback, self.capacity, (boundedSum(color[0], 0.1), boundedSum(color[1], 0.1), boundedSum(color[2], 0.1)))
-        """ 
+        """
         nefront = Cube(x+w/2, y+h/2, z+d/2, w/2, h/2, d/2)
         self.northeastfront = Octree(
             nefront, self.capacity, color)
@@ -261,7 +261,7 @@ class Octree:
 volumen = Cube(0, 0, 0, 400, 400, 400)
 qt = Octree(volumen, 4, (0.0000, 1, 0))
 
-for i in range(0):
+for i in range(10):
     xs = random.uniform(-399, 399)  # -400,400
     ys = random.uniform(-400, 400)  # -400,400
     zs = random.uniform(-400, 400)  # -400,400

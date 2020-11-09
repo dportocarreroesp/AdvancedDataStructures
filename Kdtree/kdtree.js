@@ -50,7 +50,7 @@ function generate_dot(node) {
 	return string;
 }
 
-function build_kdtree(points, depth = 0) {
+function build_kdtree(points, depth = 0,father = null) {
 	if (!points.length) return null;
 
 	n = points.length;
@@ -68,8 +68,34 @@ function build_kdtree(points, depth = 0) {
 
 	let node = new Node(points[median], eje);
 
-	node.left = build_kdtree(izq, depth + 1);
-	node.right = build_kdtree(der, depth + 1);
+	/******************creacion de sectores****************/
+    var width = 250;
+    var height = 200;
+    if(eje == 1){
+        var y = node.point[eje];
+        if(node.point[father.axis] < father.point[father.axis]){
+            line(0, 200-y, father.point[father.axis], 200-y);
+        }else{
+            line(father.point[father.axis], 200-y, width, 200-y);
+        }
+    }else if( eje == 0){
+        var x = node.point[eje];
+        if(!father){
+            line(x, 0, x, height);
+        }else{
+            if(node.point[father.axis] < father.point[father.axis]){
+                line(x, 200 - father.point[father.axis], x, height);
+            }else{
+                line(x, 0, x,200 - father.point[father.axis]);
+            }
+        }
+  
+	}
+	father = node;
+    /*****************************************************/
+
+	node.left = build_kdtree(izq, depth + 1,father);
+	node.right = build_kdtree(der, depth + 1,father);
 
 	return node;
 }

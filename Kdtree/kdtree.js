@@ -70,11 +70,17 @@ function build_kdtree(points, depth = 0,father = null) {
 
 	/******************creacion de sectores****************/
     var width = 250;
+<<<<<<< HEAD
     var height = 200;
 
     var c = color(255, 204, 0);
     stroke(c);
     
+=======
+	var height = 200;
+	var c = color(255, 204, 0);
+	stroke(c);
+>>>>>>> 6b8f956b61d5ba6b8fc0b0f36fcbc794f793643a
     if(eje == 1){
         var y = node.point[eje];
         if(node.point[father.axis] < father.point[father.axis]){

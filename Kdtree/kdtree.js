@@ -71,6 +71,10 @@ function build_kdtree(points, depth = 0,father = null) {
 	/******************creacion de sectores****************/
     var width = 250;
     var height = 200;
+
+    var c = color(255, 204, 0);
+    stroke(c);
+    
     if(eje == 1){
         var y = node.point[eje];
         if(node.point[father.axis] < father.point[father.axis]){
@@ -153,9 +157,6 @@ function closest_point(node, point, depth = 0, best = null) {
 			best = node.point;
 		}
 	}
-	console.log(depth);
-	console.log(node.point);
-	console.log(best);
 	var axis = depth % node.point.length;
 
 	if (point[axis] < node.point[axis]) {
@@ -176,7 +177,7 @@ function closest_point(node, point, depth = 0, best = null) {
     return best;
 }
 
-function k_nearest_neighbors(node, point,arr, depth = 0, best = null) {
+function k_nearest_neighbor(node, point,arr, depth = 0, best = null) {
 	if (!node) return best;
     
 	if (!depth) {
@@ -189,22 +190,23 @@ function k_nearest_neighbors(node, point,arr, depth = 0, best = null) {
 	var axis = depth % node.point.length;
     arr.push(node.point);
 	if (point[axis] < node.point[axis]) {
-        best = k_nearest_neighbors(node.left, point,arr, depth + 1, best);
+        best = k_nearest_neighbor(node.left, point,arr, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
-			best = k_nearest_neighbors(node.right, point,arr, depth + 1, best);
+			best = k_nearest_neighbor(node.right, point,arr, depth + 1, best);
 	} else {
-        best = k_nearest_neighbors(node.right, point,arr, depth + 1, best);
+        best = k_nearest_neighbor(node.right, point,arr, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
-			best = k_nearest_neighbors(node.left, point,arr, depth + 1, best);
+			best = k_nearest_neighbor(node.left, point,arr, depth + 1, best);
     }
     return best;
 }
+
 function k_closest_order(arr,k,point,res){
     if(arr.lenght<k){
         k=arr.lenght;

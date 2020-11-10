@@ -3,16 +3,18 @@ function setup() {
 	var height = 200;
 	createCanvas(width, height);
 
-	background(0);
-	for (var x = 0; x < width; x += width / 10) {
+    background(0);
+	/* for (var x = 0; x < width; x += width / 10) {
 		for (var y = 0; y < height; y += height / 5) {
 			stroke(125, 125, 125);
 			strokeWeight(1);
 			line(x, 0, x, height);
 			line(0, y, width, y);
 		}
-	}
+	} */
 
+
+    // Generar 6 puntos aleatorios
 	/* var data = [];
 	for (let i = 0; i < 6; i++) {
 		var x = Math.floor(Math.random() * height);
@@ -60,26 +62,23 @@ function setup() {
 
 	var root = build_kdtree(data, 0);
 
-    console.log(root);
-    var dotString = generate_dot(root)
+	console.log(root);
+	var dotString = generate_dot(root);
 	console.log(dotString);
 	console.log("Queried point: " + point);
 	console.log("Brute force: " + closest_point_brute_force(data, point));
-    console.log("Naive closest point: " + naive_closest_point(root, point));
-    console.log("Closest point: " + closest_point(root, point));
-    
-    // Ejercicio 5
-    let arr = new Array();
-    let res = new Array();
-    var k=3;
-    k_nearest_neighbors(root, point,arr);
-    k_closest_order(arr,k,point,res);
-    console.log("Más cercanos: ");
-    for (i = 0; i < res.length; i++) {
-      console.log(res[i]);
-    }
+	console.log("Naive closest point: " + naive_closest_point(root, point));
+	console.log("Closest point: " + closest_point(root, point));
 
-    // Se necesita d3-graphviz para ejecutar la siguiente línea
-    // caso contrario, comentar la siguiente línea
-    d3.select("#graph").graphviz().renderDot(dotString);
+	// Ejercicio 5
+	let arr = new Array();
+	var n = 3;
+	k_nearest_neighbor(root, point, arr);
+	arr.sort((a, b) => distanceSquared(point, a) - distanceSquared(point, b));
+	console.log(n + " puntos más cercanos: ");
+	for (i = 0; i < n; i++) console.log(arr[i]);
+
+	// Se necesita d3-graphviz para ejecutar la siguiente línea
+	// caso contrario, comentar la siguiente línea
+	/* d3.select("#graph").graphviz().renderDot(dotString); */
 }

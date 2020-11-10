@@ -72,7 +72,7 @@ function setup() {
     let arr = new Array();
     let res = new Array();
     var k=3;
-    k_closest_point(root, point,arr);
+    k_nearest_neighbors(root, point,arr);
     k_closest_order(arr,k,point,res);
     console.log("Más cercanos: ");
     for (i = 0; i < res.length; i++) {

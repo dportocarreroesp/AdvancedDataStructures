@@ -176,7 +176,7 @@ function closest_point(node, point, depth = 0, best = null) {
     return best;
 }
 
-function k_closest_point(node, point,arr, depth = 0, best = null) {
+function k_nearest_neighbors(node, point,arr, depth = 0, best = null) {
 	if (!node) return best;
     
 	if (!depth) {
@@ -189,19 +189,19 @@ function k_closest_point(node, point,arr, depth = 0, best = null) {
 	var axis = depth % node.point.length;
     arr.push(node.point);
 	if (point[axis] < node.point[axis]) {
-        best = k_closest_point(node.left, point,arr, depth + 1, best);
+        best = k_nearest_neighbors(node.left, point,arr, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
-			best = k_closest_point(node.right, point,arr, depth + 1, best);
+			best = k_nearest_neighbors(node.right, point,arr, depth + 1, best);
 	} else {
-        best = k_closest_point(node.right, point,arr, depth + 1, best);
+        best = k_nearest_neighbors(node.right, point,arr, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
-			best = k_closest_point(node.left, point,arr, depth + 1, best);
+			best = k_nearest_neighbors(node.left, point,arr, depth + 1, best);
     }
     return best;
 }

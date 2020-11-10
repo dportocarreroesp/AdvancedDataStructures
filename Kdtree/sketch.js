@@ -67,6 +67,17 @@ function setup() {
 	console.log("Brute force: " + closest_point_brute_force(data, point));
     console.log("Naive closest point: " + naive_closest_point(root, point));
     console.log("Closest point: " + closest_point(root, point));
+    
+    // Ejercicio 5
+    let arr = new Array();
+    let res = new Array();
+    var k=3;
+    k_closest_point(root, point,arr);
+    k_closest_order(arr,k,point,res);
+    console.log("Más cercanos: ");
+    for (i = 0; i < res.length; i++) {
+      console.log(res[i]);
+    }
 
     // Se necesita d3-graphviz para ejecutar la siguiente línea
     // caso contrario, comentar la siguiente línea

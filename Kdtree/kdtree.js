@@ -175,3 +175,50 @@ function closest_point(node, point, depth = 0, best = null) {
     }
     return best;
 }
+
+function k_closest_point(node, point,arr, depth = 0, best = null) {
+	if (!node) return best;
+    
+	if (!depth) {
+		best = node.point;
+	} else {
+		if (distanceSquared(node.point, point) < distanceSquared(best, point)) {
+			best = node.point;
+		}
+	}
+	var axis = depth % node.point.length;
+    arr.push(node.point);
+	if (point[axis] < node.point[axis]) {
+        best = k_closest_point(node.left, point,arr, depth + 1, best);
+		if (
+			Math.abs(point[axis] - node.point[axis]) <
+			distanceSquared(point, best)
+		)
+			best = k_closest_point(node.right, point,arr, depth + 1, best);
+	} else {
+        best = k_closest_point(node.right, point,arr, depth + 1, best);
+		if (
+			Math.abs(point[axis] - node.point[axis]) <
+			distanceSquared(point, best)
+		)
+			best = k_closest_point(node.left, point,arr, depth + 1, best);
+    }
+    return best;
+}
+function k_closest_order(arr,k,point,res){
+    if(arr.lenght<k){
+        k=arr.lenght;
+    }
+    for (i = 0; i < k; i++) {
+        var tmp = arr[0];
+        var pos = 0;
+        for(j=1;j<arr.length;j++){
+            if (distanceSquared(arr[j], point) < distanceSquared(tmp, point)) {
+                tmp = arr[j];
+                pos = j;
+            }
+        }
+        arr.splice(pos,1);
+        res.push(tmp);
+    }
+}

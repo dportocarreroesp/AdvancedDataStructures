@@ -3,7 +3,7 @@ function setup() {
 	var height = 200;
 	createCanvas(width, height);
 
-    background(0);
+	background(0);
 	/* for (var x = 0; x < width; x += width / 10) {
 		for (var y = 0; y < height; y += height / 5) {
 			stroke(125, 125, 125);
@@ -13,8 +13,7 @@ function setup() {
 		}
 	} */
 
-
-    // Generar 6 puntos aleatorios
+	// Generar 6 puntos aleatorios
 	/* var data = [];
 	for (let i = 0; i < 6; i++) {
 		var x = Math.floor(Math.random() * height);
@@ -25,7 +24,11 @@ function setup() {
 		circle(x, 200 - y, 7);
 		textSize(8);
 		text(x + "," + y, x + 5, 200 - y);
-    } */
+	}
+	var point = [
+		Math.floor(Math.random() * height),
+		Math.floor(Math.random() * height),
+	]; */
 
 	// Ejercicio 2
 	/* var data = [

@@ -17,7 +17,8 @@ function preorden(node) {
 }
 
 function getHeight(node) {
-	return Math.log2(node.points);
+	if (!node) return -1;
+	else return 1 + Math.max(getHeight(node.left), getHeight(node.right));
 }
 
 function recursive_generate_dot(node) {
@@ -50,7 +51,7 @@ function generate_dot(node) {
 	return string;
 }
 
-function build_kdtree(points, depth = 0,father = null) {
+function build_kdtree(points, depth = 0, father = null) {
 	if (!points.length) return null;
 
 	n = points.length;
@@ -69,35 +70,34 @@ function build_kdtree(points, depth = 0,father = null) {
 	let node = new Node(points[median], eje);
 
 	/******************creacion de sectores****************/
-    var width = 250;
+	var width = 250;
 	var height = 200;
 	var c = color(255, 204, 0);
 	stroke(c);
-    if(eje == 1){
-        var y = node.point[eje];
-        if(node.point[father.axis] < father.point[father.axis]){
-            line(0, 200-y, father.point[father.axis], 200-y);
-        }else{
-            line(father.point[father.axis], 200-y, width, 200-y);
-        }
-    }else if( eje == 0){
-        var x = node.point[eje];
-        if(!father){
-            line(x, 0, x, height);
-        }else{
-            if(node.point[father.axis] < father.point[father.axis]){
-                line(x, 200 - father.point[father.axis], x, height);
-            }else{
-                line(x, 0, x,200 - father.point[father.axis]);
-            }
-        }
-  
+	if (eje == 1) {
+		var y = node.point[eje];
+		if (node.point[father.axis] < father.point[father.axis]) {
+			line(0, 200 - y, father.point[father.axis], 200 - y);
+		} else {
+			line(father.point[father.axis], 200 - y, width, 200 - y);
+		}
+	} else if (eje == 0) {
+		var x = node.point[eje];
+		if (!father) {
+			line(x, 0, x, height);
+		} else {
+			if (node.point[father.axis] < father.point[father.axis]) {
+				line(x, 200 - father.point[father.axis], x, height);
+			} else {
+				line(x, 0, x, 200 - father.point[father.axis]);
+			}
+		}
 	}
 	father = node;
-    /*****************************************************/
+	/*****************************************************/
 
-	node.left = build_kdtree(izq, depth + 1,father);
-	node.right = build_kdtree(der, depth + 1,father);
+	node.left = build_kdtree(izq, depth + 1, father);
+	node.right = build_kdtree(der, depth + 1, father);
 
 	return node;
 }
@@ -109,7 +109,8 @@ function distanceSquared(point1, point2) {
 }
 
 function closest_point_brute_force(points, point) {
-	if (points.length < 2) return null;
+	if (points.length < 1) return null;
+	if (points.length == 1) return points[0];
 
 	var min = distanceSquared(point, points[0]);
 	var minPoint = points[0];
@@ -158,26 +159,26 @@ function closest_point(node, point, depth = 0, best = null) {
 	var axis = depth % node.point.length;
 
 	if (point[axis] < node.point[axis]) {
-        best = closest_point(node.left, point, depth + 1, best);
+		best = closest_point(node.left, point, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
 			best = closest_point(node.right, point, depth + 1, best);
 	} else {
-        best = closest_point(node.right, point, depth + 1, best);
+		best = closest_point(node.right, point, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
 			best = closest_point(node.left, point, depth + 1, best);
-    }
-    return best;
+	}
+	return best;
 }
 
-function k_nearest_neighbor(node, point,arr, depth = 0, best = null) {
+function k_nearest_neighbor(node, point, arr, depth = 0, best = null) {
 	if (!node) return best;
-    
+
 	if (!depth) {
 		best = node.point;
 	} else {
@@ -186,39 +187,39 @@ function k_nearest_neighbor(node, point,arr, depth = 0, best = null) {
 		}
 	}
 	var axis = depth % node.point.length;
-    arr.push(node.point);
+	arr.push(node.point);
 	if (point[axis] < node.point[axis]) {
-        best = k_nearest_neighbor(node.left, point,arr, depth + 1, best);
+		best = k_nearest_neighbor(node.left, point, arr, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
-			best = k_nearest_neighbor(node.right, point,arr, depth + 1, best);
+			best = k_nearest_neighbor(node.right, point, arr, depth + 1, best);
 	} else {
-        best = k_nearest_neighbor(node.right, point,arr, depth + 1, best);
+		best = k_nearest_neighbor(node.right, point, arr, depth + 1, best);
 		if (
 			Math.abs(point[axis] - node.point[axis]) <
 			distanceSquared(point, best)
 		)
-			best = k_nearest_neighbor(node.left, point,arr, depth + 1, best);
-    }
-    return best;
+			best = k_nearest_neighbor(node.left, point, arr, depth + 1, best);
+	}
+	return best;
 }
 
-function k_closest_order(arr,k,point,res){
-    if(arr.lenght<k){
-        k=arr.lenght;
-    }
-    for (i = 0; i < k; i++) {
-        var tmp = arr[0];
-        var pos = 0;
-        for(j=1;j<arr.length;j++){
-            if (distanceSquared(arr[j], point) < distanceSquared(tmp, point)) {
-                tmp = arr[j];
-                pos = j;
-            }
-        }
-        arr.splice(pos,1);
-        res.push(tmp);
-    }
+function k_closest_order(arr, k, point, res) {
+	if (arr.lenght < k) {
+		k = arr.lenght;
+	}
+	for (i = 0; i < k; i++) {
+		var tmp = arr[0];
+		var pos = 0;
+		for (j = 1; j < arr.length; j++) {
+			if (distanceSquared(arr[j], point) < distanceSquared(tmp, point)) {
+				tmp = arr[j];
+				pos = j;
+			}
+		}
+		arr.splice(pos, 1);
+		res.push(tmp);
+	}
 }

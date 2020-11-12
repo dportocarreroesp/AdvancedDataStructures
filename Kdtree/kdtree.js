@@ -108,6 +108,21 @@ function distanceSquared(point1, point2) {
 	return Math.sqrt(distance);
 }
 
+function distanceNonSquared(point1, point2) {
+	var distance = 0;
+	for (var i = 0; i < k; i++) distance += Math.pow(point1[i] - point2[i], 2);
+	return distance;
+}
+
+function rectangleContains(up_left, low_right, point) {
+	return (
+		point[0] >= up_left[0] &&
+		point[0] <= low_right[0] &&
+		point[1] <= up_left[1] &&
+		point[1] >= low_right[1]
+	);
+}
+
 function closest_point_brute_force(points, point) {
 	if (points.length < 1) return null;
 	if (points.length == 1) return points[0];
@@ -222,4 +237,183 @@ function k_closest_order(arr, k, point, res) {
 		arr.splice(pos, 1);
 		res.push(tmp);
 	}
+}
+
+function knn(node, query_point, depth = 0) {
+	/*
+    Let the test point be P = (y0, y1, ..., yk).
+    Maintain a BPQ of the candidate nearest neighbors, called 'bpq'
+    Set the maximum size of 'bpq' to k
+    Starting at the root, execute the following procedure:
+    
+    if curr == NULL
+        return
+    
+    Add the current point to the BPQ. Note that this is a no-op if the
+    point is not as good as the points we've seen so far.
+     
+     enqueue curr into bpq with priority distance(curr, P)
+
+    Recursively search the half of the tree that contains the test point. 
+    
+    if yi < curri
+        recursively search the left subtree on the next axis
+    else
+        recursively search the right subtree on the next axis
+    
+    If the candidate hypersphere crosses this splitting plane, look on the
+      other side of the plane by examining the other subtree.
+     
+     if:
+        bpq isn't full
+     -or-
+     |curri – yi| is less than the priority of the max-priority elem of bpq
+        then
+        recursively search the other subtree on the next axis
+    */
+
+	nodes_visited += 1;
+
+	if (node === null) return;
+
+	bpq.insert(node.point, distanceSquared(node.point, query_point)); //insertamos el nodo visitado a l a pila
+
+	var axis = depth % k;
+	var next_branch = null;
+	var opposite_branch = null;
+
+	if (query_point[axis] < node.point[axis]) {
+		next_branch = node.left;
+		opposite_branch = node.right;
+	} else {
+		next_branch = node.right;
+		opposite_branch = node.left;
+	}
+
+	knn(next_branch, query_point, depth + 1);
+
+	//si aun hay espacio en la pila y ademas el de prioridad mayor es > a y_1-y_0
+	if (
+		bpq.queue.length < bpq.size ||
+		Math.abs(query_point[axis] - node.point[axis]) <
+			bpq.queue[bpq.queue.length - 1].priority
+	) {
+		knn(opposite_branch, query_point, depth + 1);
+	}
+}
+
+function knn(node, query_point, depth = 0) {
+	/*
+    Let the test point be P = (y0, y1, ..., yk).
+    Maintain a BPQ of the candidate nearest neighbors, called 'bpq'
+    Set the maximum size of 'bpq' to k
+    Starting at the root, execute the following procedure:
+    
+    if curr == NULL
+        return
+    
+    Add the current point to the BPQ. Note that this is a no-op if the
+    point is not as good as the points we've seen so far.
+     
+     enqueue curr into bpq with priority distance(curr, P)
+
+    Recursively search the half of the tree that contains the test point. 
+    
+    if yi < curri
+        recursively search the left subtree on the next axis
+    else
+        recursively search the right subtree on the next axis
+    
+    If the candidate hypersphere crosses this splitting plane, look on the
+      other side of the plane by examining the other subtree.
+     
+     if:
+        bpq isn't full
+     -or-
+     |curri – yi| is less than the priority of the max-priority elem of bpq
+        then
+        recursively search the other subtree on the next axis
+    */
+
+	if (node === null) return;
+
+	bpq.insert(node.point, distanceSquared(node.point, query_point));
+
+	var axis = depth % k;
+	var next_branch = null;
+	var opposite_branch = null;
+
+	if (query_point[axis] < node.point[axis]) {
+		next_branch = node.left;
+		opposite_branch = node.right;
+	} else {
+		next_branch = node.right;
+		opposite_branch = node.left;
+	}
+
+	knn(next_branch, query_point, depth + 1);
+
+	if (
+		bpq.queue.length < bpq.size ||
+		Math.abs(query_point[axis] - node.point[axis]) <
+			bpq.queue[bpq.queue.length - 1].priority
+	) {
+		knn(opposite_branch, query_point, depth + 1);
+	}
+}
+
+function range_query_circle(node, center, radio, queue, depth = 0) {
+	if (node === null) return;
+
+	var axis = depth % k;
+
+	if (distanceNonSquared(node.point, center) <= radio * radio)
+		queue.push(node.point);
+
+	nodes_visited++;
+
+	if (node.point[axis] - center[axis] >= radio) {
+		range_query_circle(node.left, center, radio, queue, depth + 1);
+		return;
+	}
+	if (center[axis] - node.point[axis] >= radio) {
+		range_query_circle(node.right, center, radio, queue, depth + 1);
+		return;
+	}
+
+	range_query_circle(node.left, center, radio, queue, depth + 1);
+	range_query_circle(node.right, center, radio, queue, depth + 1);
+}
+
+function range_query_rec(node, up_left, low_right, queue, depth = 0) {
+	if (node === null) return;
+
+	var axis = depth % k;
+	if (rectangleContains(up_left, low_right, node.point)) {
+		queue.push(node.point);
+	}
+
+	nodes_visited++;
+	if (!axis) {
+		if (low_right[axis] <= node.point[axis]) {
+			range_query_rec(node.left, up_left, low_right, queue, depth + 1);
+			return;
+		}
+		if (up_left[axis] >= node.point[axis]) {
+			range_query_rec(node.right, up_left, low_right, queue, depth + 1);
+			return;
+		}
+	} else {
+		if (up_left[axis] <= node.point[axis]) {
+			range_query_rec(node.left, up_left, low_right, queue, depth + 1);
+			return;
+		}
+		if (low_right[axis] >= node.point[axis]) {
+			range_query_rec(node.right, up_left, low_right, queue, depth + 1);
+			return;
+		}
+	}
+
+	range_query_rec(node.left, up_left, low_right, queue, depth + 1);
+	range_query_rec(node.right, up_left, low_right, queue, depth + 1);
 }

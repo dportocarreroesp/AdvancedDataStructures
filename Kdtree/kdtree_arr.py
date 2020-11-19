@@ -1,6 +1,6 @@
 import math
 
-k = 2;
+k = 5;
 
 class BPQ:
     def __init__(self,size):
@@ -181,15 +181,15 @@ def knn(node, query_point,nodes_visited, depth = 0):
         knn(opposite_branch, query_point, depth + 1);
 
 data = [
-		["aaa", "bbb"],
-		["aba", "abb"],
-		["aab" ,"abb"],
-		["zaaa", "zbab"],
-		["ahgc", "apou"],
-		["ayut", "apoy"]
+		["aaa", "bbb","aaa", "bbb","zwa"],
+		["aba", "abb","auy","yruew","iuew"],
+		["aab" ,"abb","jte","kteq","ñpws"],
+		["zaaa", "zbab","njksd","sywa","wtsf"],
+		["ahgc", "apou","yrhs","wuzn","jjas"],
+		["ayut", "apoy","hfgjd","wekj","lkhd"]
         #[150, 30],
 	];
-point = ["zzzz", "zzzz"];
+point = ["zzzz", "abhs","qweu","ñole","wuet"];
 #print(data);
 root = build_kdtree(data);
 aux = root;

@@ -1,4 +1,5 @@
 import math
+#import pandas as pd
 
 k = 2;
 
@@ -139,6 +140,13 @@ def closest_point(node, point, depth = 0, best = None):
             best = closest_point(node.left, point, depth + 1, best);
 
     return best;
+
+#################Load DB
+'''def load_bd(path):
+    my_dict = pd.read_csv(path)
+    rating = my_dict.groupby('userId')[['movieId','rating']].apply(lambda g: g.values.tolist()).to_dict()
+    return rating
+'''
 
 def knn(node, query_point, depth = 0):
 

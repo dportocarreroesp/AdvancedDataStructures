@@ -20,11 +20,10 @@ function setup(){
     rt = new Rtree(10);
     var root = null;
     //root = new NodoRTree();
-    for(i = 0; i < 11 ; i++){
+    for(i = 0; i < 20 ; i++){
         var x = Math.floor(Math.random() * width);
 		var y = Math.floor(Math.random() * height);
         var p = new Point(x,y);
-        console.log(p.x,p.y);
         
         fill(225, 225, 225);
 		circle(p.x, 400 - p.y, 7);
@@ -32,27 +31,6 @@ function setup(){
 		text(p.x + "," + p.y, p.x + 5, 400 - p.y);
         root = rt.insert(root,p);
     }
-    //rt.ver(root);
-
-    //circle(100, 400 - 100, 7);
-    //textSize(8);
-	//text(100 + "," + 100, 100 + 5, 400 - 100);
-        
-
-    //stroke(0 ,255 ,0);
-
+    console.log("Show Datas");
+    rt.traverse(root);
 }
-
-/*function draw(){
-    
-    stroke(0 ,255 ,0);
-    rectMode(CENTER);
-    noFill();
-    let range = new Rectangle(150,10,50,50);
-
-    rect(range.x,400-range.y,range.w * 2,range.h * 2);
-    
-    strokeWeight(4) ;
-    point(350,350);
-
-}*/

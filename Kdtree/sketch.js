@@ -18,8 +18,8 @@ function setup() {
 	} */
 
 	// Generar 6 puntos aleatorios
-	/* var data = [];
-	for (let i = 0; i < 6; i++) {
+	var data = [];
+	for (let i = 0; i < 100000; i++) {
 		var x = Math.floor(Math.random() * height);
 		var y = Math.floor(Math.random() * height);
 		data.push([x, y]);
@@ -35,7 +35,7 @@ function setup() {
 	];
 	var radio = 40;
 	var w = 50;
-	var h = 40; */
+	var h = 40;
 
 	// Ejercicio 2
 	/* var data = [
@@ -52,7 +52,7 @@ function setup() {
     var h = 40; */
 
 	// Ejercicio 3
-	var data = [
+	/* var data = [
 		[40, 70],
 		[70, 130],
 		[90 ,40],
@@ -64,7 +64,7 @@ function setup() {
     var point = [140, 90];
     var radio = 25;
     var w = 50;
-    var h = 40;
+    var h = 40; */
 	for (let i = 0; i < data.length; i++) {
 		fill(225, 225, 225);
 		circle(data[i][0], 200 - data[i][1], 7);
